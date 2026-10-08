@@ -251,3 +251,48 @@ housing, sensors, connections, cables) are byte-identical to r04. 385 meshes; GL
 Band L path highlights the Band L winding, transformer, PA passives, connector pins and filter network and not the Band H
 parts; selecting a winding shows the inductor's role and its TBD / placeholder evidence; connection links still meet the
 component tops (magnetics sized to their reserved heights).
+
+## Viewer v7: guided tour, search and system diagram (2026-10-06)
+
+Interface only; the model, labels, paths and register are unchanged.
+
+- Guided tour (header button, T, or the Inspect card): ten steps, each opening a view and, where useful, selecting the
+  parts and register rows it describes; Back / Next / Auto-play, arrow keys, Esc ends it. First visit offers it once.
+- Search palette (Ctrl K or /): views, actions, components, CAD parts and register rows; Enter opens the result.
+- System diagram in the Inspect tab: click a block to select its parts in 3D, hover to highlight them; the other band
+  dims on a band path.
+- Selection: breadcrumb, Focus, Isolate (show the selection only), Copy link (`#view:PART`).
+- Cutaway section slider (-60 to +60 mm), Snapshot (2x PNG with labels, title and the truth footer).
+
+| Check | Result |
+|---|---|
+| All 10 tour steps | each lands on a valid view; Finish and Esc end the tour |
+| Palette | "ths" lists the THS3491 parts; "match l" + Enter selects MATCH L and sets `#payload:PCB_MATCH_L` |
+| Isolate, section slider, snapshot | isolate shows the selection only; the slider shows only in Cutaway; snapshot is a 2x PNG |
+| Part links | `#view:PART` opens the part in that view |
+| 375 px | no horizontal page scroll; tour card visible |
+
+## Viewer v8: frequency plan, low-power design, register r04 (2026-10-08)
+
+Design-review fixes; the GLB is unchanged.
+
+- Frequency plan card: at TP1, f0 tunes continuously from 100 to 500 kHz (common ~600 kHz filter); in water, output is
+  efficient near the Band L (~120 kHz class) and Band H (500 kHz class) projector resonances, and the mid band is
+  marked off-resonance. Projector spans are drawn approximately until impedance measurement. Names the waveforms (LFM
+  chirp, geometric sweep, Barker-13 phase code, CW), the windows (Hann, Hamming, Blackman, Tukey) and DAC3 (internal
+  12-bit, up to 15 MSPS).
+- Low-power design card: DMA streaming from a RAM buffer, per-band PA power-down, load-switch and boost enables, rail
+  current monitoring. No power figures are claimed; they are to be measured on the prototype.
+- Register r04 (68 rows): CTRL-05 / CTRL-06 add the PD_L / PD_H links to THS3491 L2 / H2; CTRL-01 / CTRL-02 now name
+  L1 / H1 only. The two new links are drawn by the viewer in the style of the exported links (not in the FreeCAD export).
+- OPA2356 is described as the two Sallen-Key stages of the 4th-order filter; the STM32's internal OPAMP follower buffers
+  the DAC.
+- Bench-demo potentiometer dials appear in the project summary, the Sensing caption, the tour and the system diagram.
+- The source note in the Display tab is shorter.
+
+| Check | Result |
+|---|---|
+| Register | 68 rows embedded and in SIH26058_CONNECTIVITY_REGISTER_r04.csv; header count shows 68 |
+| CTRL-05 / CTRL-06 | drawn from the STM32 to THS3491 L2 / H2 in the Band L / Band H colour; listed in the path steps |
+| Frequency plan | no overlapping labels; the band shapes open the Band L / Band H paths by click and Enter |
+| 375 px | no horizontal page scroll |
