@@ -1,0 +1,2412 @@
+<title>SIH26058 Transmitter Payload</title>
+<meta name="description" content="Interactive 3D digital twin of the SIH26058 adaptive software-defined sonar transmitter payload (B300) in a proposed AUV: signal paths, power and sensing architecture. Presentation model, not fabricated.">
+<meta name="theme-color" content="#060a10">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://auv.lightninglogics.me/">
+<meta property="og:title" content="SIH26058 · B300 Transmitter Payload · Digital Twin">
+<meta property="og:description" content="Interactive 3D model of the adaptive software-defined sonar transmitter payload for AUVs (SIH 2026, PS 26058). Presentation model, not fabricated.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a10'/%3E%3Ccircle cx='17' cy='32' r='5.5' fill='%233cc3ff'/%3E%3Cg fill='none' stroke='%233cc3ff' stroke-width='4.5' stroke-linecap='round'%3E%3Cpath d='M27 20a17 17 0 0 1 0 24'/%3E%3Cpath d='M36 13a27 27 0 0 1 0 38' opacity='.7'/%3E%3Cpath d='M45 7a37 37 0 0 1 0 50' opacity='.4'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<script>
+try { const t = localStorage.getItem("sih26058-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; }
+catch (e) { /* storage blocked: the default dark theme is used */ }
+</script>
+<style>
+/* Layout: engineering digital twin. Header (team, page title, permanent truth label, theme / panels / full screen),
+   left view rail (two groups of view modes), 3D stage with projected callouts and evidence tags, right inspector
+   with three tabs (Inspect, Components, Display). Under 820px the rail becomes a chip strip and the page scrolls. */
+:root {
+  --bg: #060a10;
+  --bg-2: #0b121c;
+  --surface: #0c131d;
+  --surface-solid: #0f1824;
+  --raise: rgba(160, 190, 230, .045);
+  --raise-2: rgba(160, 190, 230, .085);
+  --line: rgba(148, 178, 214, .13);
+  --line-2: rgba(148, 178, 214, .24);
+  --fg: #e8eef6;
+  --fg-2: #b4c1d0;
+  --muted: #7a889a;
+  --accent: #3cc3ff;
+  --accent-2: #2de0c0;
+  --accent-fg: #03121c;
+  --glow: rgba(60, 195, 255, .22);
+  --sel-bg: rgba(60, 195, 255, .12);
+  --sel-line: rgba(60, 195, 255, .38);
+  --vp-hi: #12263d;
+  --vp-lo: #05080d;
+  --grid: rgba(110, 160, 220, .055);
+  --warn: #ffc24b;
+  --warn-bg: rgba(255, 194, 75, .09);
+  --warn-line: rgba(255, 194, 75, .34);
+  --callout: rgba(9, 15, 24, .9);
+  --leader: rgba(196, 214, 236, .62);
+  --tag: rgba(255, 194, 75, .1);
+  --tag-fg: #ffc24b;
+  --tag-line: rgba(255, 194, 75, .38);
+  --st-locked: #4ade80;
+  --st-cand: #60a5fa;
+  --st-prop: #fbbf24;
+  --st-tbd: #8b98a6;
+  --shadow: 0 12px 34px rgba(0, 0, 0, .38);
+  --radius: 14px;
+  --rail-w: 252px;
+  --panel-w: 372px;
+  --gap: 10px;
+  --font-display: "Space Grotesk", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-body: "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "SFMono-Regular", monospace;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #eef2f7; --bg-2: #f7f9fc; --surface: #ffffff; --surface-solid: #ffffff;
+  --raise: rgba(20, 45, 80, .035); --raise-2: rgba(20, 45, 80, .07); --line: rgba(20, 45, 80, .12); --line-2: rgba(20, 45, 80, .22);
+  --fg: #0e1a29; --fg-2: #344559; --muted: #5f6d7f; --accent: #0a7fc2; --accent-2: #0d9488; --accent-fg: #ffffff;
+  --glow: rgba(10, 127, 194, .18); --sel-bg: rgba(10, 127, 194, .09); --sel-line: rgba(10, 127, 194, .4);
+  --vp-hi: #ffffff; --vp-lo: #d3dce8; --grid: rgba(20, 60, 110, .07);
+  --warn: #8a5600; --warn-bg: rgba(255, 170, 0, .12); --warn-line: rgba(160, 100, 0, .35);
+  --callout: rgba(255, 255, 255, .94); --leader: rgba(30, 50, 75, .55);
+  --tag: rgba(255, 170, 0, .1); --tag-fg: #845200; --tag-line: rgba(160, 100, 0, .4);
+  --st-locked: #15803d; --st-cand: #1d4ed8; --st-prop: #a16207; --st-tbd: #64748b;
+  --shadow: 0 10px 30px rgba(20, 40, 70, .1);
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--fg); font: 14px/1.45 var(--font-body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; }
+* { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+button:focus-visible, input:focus-visible, summary:focus-visible, [role="tab"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.app { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); }
+
+/* header */
+header.top { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 8px 14px 8px 16px; min-width: 0;
+  background: linear-gradient(180deg, var(--bg-2), var(--bg)); border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 11px; flex: none; }
+.logo { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; color: var(--accent);
+  background: radial-gradient(circle at 30% 30%, var(--glow), transparent 75%), var(--raise); border: 1px solid var(--line-2); }
+.logo svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
+.who { display: grid; line-height: 1.12; }
+.who b { font-family: var(--font-display); font-weight: 700; font-size: 15.5px; letter-spacing: .01em; }
+.who span { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.vr { width: 1px; height: 30px; background: var(--line); flex: none; }
+.title { min-width: 0; display: grid; line-height: 1.2; }
+.title b { font-family: var(--font-display); font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.title span { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.truth { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 10px; border-radius: 999px;
+  background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn-line); font-family: var(--font-display); font-weight: 600;
+  font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; flex: none; }
+.truth .i { width: 15px; height: 15px; }
+.truth .s { display: none; }
+.actions { display: flex; gap: 6px; flex: none; }
+.ib { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line); background: var(--raise);
+  color: var(--fg-2); cursor: pointer; padding: 0; }
+.ib:hover { color: var(--fg); border-color: var(--line-2); background: var(--raise-2); }
+.ib[aria-pressed="true"] { color: var(--accent); border-color: var(--sel-line); background: var(--sel-bg); }
+#themeBtn .moon, :root[data-theme="light"] #themeBtn .sun { display: none; }
+:root[data-theme="light"] #themeBtn .moon { display: block; }
+#themeBtn[aria-pressed] { color: var(--fg-2); border-color: var(--line); background: var(--raise); }
+
+/* main grid */
+.main { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr) var(--panel-w); gap: var(--gap); padding: var(--gap); min-height: 0; }
+.app.focus .main { grid-template-columns: minmax(0, 1fr); }
+.app.focus .rail, .app.focus .panel { display: none; }
+.surface { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* view rail */
+.rail { overflow-y: auto; padding: 10px 8px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.modes { display: flex; flex-direction: column; gap: 3px; }
+.modes .grp { margin: 12px 10px 5px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.modes .grp:first-child { margin-top: 4px; }
+.modes button { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: center; gap: 11px; width: 100%;
+  text-align: left; padding: 7px 10px 7px 7px; border-radius: 11px; border: 1px solid transparent; background: none; color: var(--fg-2); cursor: pointer; }
+.modes .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--raise);
+  border: 1px solid var(--line); color: var(--mc, var(--accent)); transition: background .2s, color .2s, box-shadow .2s; }
+.modes .ic .i { width: 19px; height: 19px; }
+.modes .tx { display: grid; min-width: 0; line-height: 1.22; }
+.modes .tx b { font-family: var(--font-display); font-weight: 600; font-size: 13.5px; color: var(--fg); }
+.modes .tx small { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.modes .sh { display: none; }
+.modes button:hover { background: var(--raise); }
+.modes button:hover .ic { border-color: var(--line-2); }
+.modes button[aria-pressed="true"] { background: linear-gradient(90deg, var(--sel-bg), transparent); border-color: var(--sel-line); }
+.modes button[aria-pressed="true"]::before { content: ""; position: absolute; left: -9px; top: 11px; bottom: 11px; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--mc, var(--accent)); }
+.modes button[aria-pressed="true"] .ic { background: var(--mc, var(--accent)); color: var(--accent-fg); border-color: transparent;
+  box-shadow: 0 0 22px -5px var(--mc, var(--accent)); }
+.rail-foot { margin-top: auto; display: grid; gap: 7px; padding: 12px 10px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--fg-2); }
+.rail-foot b { font-family: var(--font-mono); font-weight: 500; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.rail-foot span { display: flex; align-items: center; gap: 8px; }
+.rail-foot i { width: 16px; height: 4px; border-radius: 2px; flex: none; }
+
+/* 3D stage */
+.stage { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--radius); container-type: inline-size;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 38%, var(--vp-lo) 92%),
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 44px 44px,
+    radial-gradient(120% 95% at 50% 36%, var(--vp-hi), var(--vp-lo)); }
+.frame { position: absolute; inset: 0; border: 1px solid var(--line); border-radius: inherit; pointer-events: none; }
+canvas#view { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+canvas#view.dragging { cursor: grabbing; }
+canvas#view.over { cursor: pointer; }
+svg#leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+svg#leaders path { fill: none; stroke: var(--leader); stroke-width: 1; }
+svg#leaders circle { fill: var(--fg); stroke: var(--bg); stroke-width: 1.5; }
+.callouts { position: absolute; inset: 0; pointer-events: none; }
+.co { position: absolute; left: 0; top: 0; pointer-events: none; background: var(--callout); border: 1px solid var(--line-2); border-radius: 7px;
+  padding: 4px 9px 4px 7px; display: flex; align-items: center; gap: 7px; font-family: var(--font-display); font-weight: 600; font-size: 12px;
+  letter-spacing: .04em; white-space: nowrap; color: var(--fg); box-shadow: 0 4px 14px rgba(0, 0, 0, .22); margin: 0; }
+.co i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.co b { font-family: var(--font-mono); font-weight: 500; font-size: 10px; color: var(--fg-2); min-width: 17px; height: 17px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--raise-2); }
+.co.func { border-style: dashed; }
+.co .t { display: grid; gap: 1px; line-height: 1.15; text-align: left; }
+.co .t small { font-weight: 600; font-size: 10px; letter-spacing: .06em; color: var(--muted); }
+.co.primary { font-size: 14px; padding: 7px 13px 7px 10px; border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow), 0 6px 20px rgba(0, 0, 0, .3); }
+.co.primary i { width: 10px; height: 10px; }
+.co.hot { border-color: var(--fg); }
+.caption { position: absolute; left: 16px; top: 14px; max-width: min(560px, calc(100% - 32px - var(--tags-w, 0px)));
+  display: grid; gap: 3px; pointer-events: none; padding-left: 12px; border-left: 3px solid var(--cap-c, var(--accent)); }
+.caption b { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: .1em; }
+.caption span { font-size: 12.5px; color: var(--fg-2); }
+.tags { position: absolute; right: 14px; top: 14px; display: grid; gap: 6px; justify-items: end; pointer-events: none; max-width: calc(100% - 28px); }
+.tags span { font-family: var(--font-display); font-weight: 600; font-size: 10.5px; letter-spacing: .1em; color: var(--tag-fg);
+  background: var(--tag); border: 1px solid var(--tag-line); border-radius: 6px; padding: 4px 9px; }
+.hint { position: absolute; left: 14px; bottom: 14px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; font-size: 11.5px;
+  color: var(--fg-2); pointer-events: none; transition: opacity .9s ease; background: var(--callout); border: 1px solid var(--line-2);
+  border-radius: 10px; padding: 7px 11px; max-width: calc(100% - 600px); }   /* stays clear of the camera tools and the gizmo */
+.hint.fade { opacity: 0; }
+.hint kbd { font-family: var(--font-mono); font-size: 10px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 5px;
+  padding: 0 5px; color: var(--fg); background: var(--raise); margin-right: 5px; }
+.tools { position: absolute; right: 142px; bottom: 14px; display: flex; gap: 2px; padding: 4px; background: var(--callout);
+  border: 1px solid var(--line-2); border-radius: 12px; box-shadow: var(--shadow); }
+.tools button { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px 0 10px; border: 0; border-radius: 8px;
+  background: none; color: var(--fg-2); cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 12.5px; letter-spacing: .03em; }
+.tools button:hover { background: var(--raise-2); color: var(--fg); }
+.tools .i { width: 16px; height: 16px; }
+.gizmo { position: absolute; right: 0; bottom: 0; width: 128px; height: 128px; cursor: pointer; }
+.gizmo-cap { position: absolute; right: 10px; bottom: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); pointer-events: none; }
+.tip { position: absolute; pointer-events: none; background: var(--surface-solid); color: var(--fg); border: 1px solid var(--line-2);
+  border-radius: 10px; padding: 10px 12px; width: max-content; max-width: 330px; display: grid; gap: 4px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .4); font-size: 12.5px; }
+.tip .sub { font-family: var(--font-display); font-weight: 700; letter-spacing: .05em; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.tip .sub i { width: 9px; height: 9px; border-radius: 50%; }
+.tip .nm { color: var(--fg); }
+.tip .meta { color: var(--fg-2); font-size: 12px; }
+.tip .k { font-family: var(--font-mono); letter-spacing: .08em; text-transform: uppercase; font-size: 9.5px; color: var(--muted); margin-right: 6px; }
+
+/* loading overlay: never takes pointer events, removed from the page once the model is ready */
+.load { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; pointer-events: none;
+  transition: opacity .6s ease; text-align: center; padding: 16px; }
+.load.done { opacity: 0; }
+.sonar { position: relative; width: 120px; height: 120px; }
+.sonar i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; animation: ping 2.4s cubic-bezier(.2, .6, .3, 1) infinite; }
+.sonar i:nth-child(2) { animation-delay: .8s; }
+.sonar i:nth-child(3) { animation-delay: 1.6s; }
+.sonar span { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 22px var(--accent); }
+@keyframes ping { 0% { transform: scale(.12); opacity: .95; } 100% { transform: scale(1); opacity: 0; } }
+.load b { font-family: var(--font-display); font-weight: 600; font-size: 14px; letter-spacing: .16em; text-transform: uppercase; }
+.load .bar { width: 230px; height: 4px; border-radius: 4px; background: var(--raise-2); overflow: hidden; }
+.load .bar i { display: block; height: 100%; transform-origin: left; transform: scaleX(0); transition: transform .25s ease;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
+.load .msg { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); max-width: 420px; }
+.load.err .msg { color: var(--st-prop); }
+.load.err .sonar i { animation: none; }
+
+/* narrow stage: hint off, evidence tags move to the bottom-left so the caption keeps the full width */
+@container (max-width: 960px) { .hint { display: none; } }
+@container (max-width: 700px) {
+  .caption { max-width: calc(100% - 32px); }
+  .tags { top: auto; bottom: 58px; left: 12px; right: auto; justify-items: start; max-width: calc(100% - 175px); }
+  .tags span { font-size: 9.5px; }
+  .tools { right: auto; left: 12px; bottom: 12px; }
+}
+
+/* inspector */
+aside.panel { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.tabs { display: flex; gap: 3px; padding: 6px; border-bottom: 1px solid var(--line); flex: none; }
+.tabs button { flex: 1; height: 34px; border: 0; border-radius: 8px; background: none; color: var(--muted); font-family: var(--font-display);
+  font-weight: 600; font-size: 13px; letter-spacing: .02em; cursor: pointer; }
+.tabs button:hover { color: var(--fg); background: var(--raise); }
+.tabs button[aria-selected="true"] { background: var(--raise-2); color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
+.pbody { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.card { border: 1px solid var(--line); border-radius: 12px; background: var(--raise); padding: 14px; }
+.label { font-family: var(--font-mono); font-weight: 500; text-transform: uppercase; letter-spacing: .14em; font-size: 10.5px; color: var(--muted); margin: 0 0 10px; }
+.intro .k { font-family: var(--font-mono); font-size: 10.5px; color: var(--accent); letter-spacing: .14em; text-transform: uppercase; }
+.intro h1 { font-family: var(--font-display); font-weight: 700; font-size: 21px; line-height: 1.16; letter-spacing: -.005em; margin: 7px 0 8px; text-wrap: balance; }
+.intro p { margin: 0; color: var(--fg-2); font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.stats div { border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; background: var(--raise); display: grid; gap: 1px; }
+.stats b { font-family: var(--font-display); font-size: 23px; font-weight: 700; line-height: 1.05; color: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.stats span { font-size: 11.5px; color: var(--muted); }
+.bands { display: grid; gap: 8px; }
+.band { display: grid; grid-template-columns: 4px minmax(0, 1fr) auto; gap: 12px; align-items: center; text-align: left; width: 100%;
+  padding: 10px 12px 10px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--raise); cursor: pointer; }
+.band::before { content: ""; align-self: stretch; border-radius: 4px; background: var(--bc); }
+.band span { display: grid; line-height: 1.25; min-width: 0; }
+.band b { font-family: var(--font-display); font-weight: 600; font-size: 14px; }
+.band small { font-size: 11.5px; color: var(--muted); }
+.band .i { width: 16px; height: 16px; color: var(--muted); }
+.band:hover { border-color: var(--bc); background: var(--raise-2); }
+.band:hover .i { color: var(--bc); }
+.note { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 14px; padding: 10px 12px; border-radius: 10px; font-size: 12px;
+  color: var(--fg-2); background: var(--warn-bg); border: 1px solid var(--warn-line); }
+.note .i { width: 16px; height: 16px; color: var(--warn); margin-top: 1px; }
+.note b { color: var(--warn); font-weight: 600; }
+.chain { display: grid; gap: 10px; border-color: var(--line-2); }
+.chain h2 { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: .06em; margin: 0; }
+.chain .why { font-size: 12.5px; color: var(--fg-2); margin: 0; }
+.chain ol { list-style: none; margin: 0; padding: 0; display: grid; }
+.chain li.br { font-family: var(--font-mono); font-size: 10px; letter-spacing: .13em; color: var(--muted); padding: 10px 0 4px 26px; text-transform: uppercase; }
+.chain li.st { position: relative; padding-left: 26px; }
+.chain li.st::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--pc, var(--muted)); opacity: .45; }
+.chain li.st:first-child::before, .chain li.br + li.st::before { top: 14px; }
+.chain li.st::after { content: ""; position: absolute; left: 3px; top: 10px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--surface-solid); border: 2px solid var(--pc, var(--muted)); }
+.chain li.st.fn::after { border-style: dashed; }
+.chain li.st button { width: 100%; text-align: left; background: none; border: 0; cursor: pointer; padding: 5px 8px; border-radius: 8px;
+  display: grid; gap: 1px; font-family: var(--font-body); }
+.chain li.st button:hover { background: var(--raise-2); }
+.chain li.st button b { font-family: var(--font-display); font-weight: 600; letter-spacing: .02em; font-size: 13.5px; }
+.chain li.st button small { font-size: 12px; color: var(--fg-2); }
+.chain li.st button code { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
+.sel { display: grid; gap: 10px; border-color: var(--sel-line); background: linear-gradient(180deg, var(--sel-bg), transparent 120px), var(--raise); }
+.sel .top { display: flex; align-items: start; gap: 10px; }
+.sel h2 { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: .01em; margin: 0; line-height: 1.22;
+  min-width: 0; overflow-wrap: anywhere; }
+.sel .x { margin-left: auto; background: var(--raise); border: 1px solid var(--line-2); color: var(--fg-2); border-radius: 999px;
+  font-size: 11.5px; padding: 3px 11px; cursor: pointer; flex: none; }
+.sel .x:hover { color: var(--fg); border-color: var(--accent); }
+#sRows { display: grid; gap: 0; }
+.sel .row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; font-size: 12.5px; padding: 8px 0; border-top: 1px solid var(--line); }
+.sel .row .k { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em; font-size: 9.5px; padding-top: 3px; }
+.sel .row .v { min-width: 0; overflow-wrap: anywhere; }
+.sel .mono { font-family: var(--font-mono); font-size: 11px; }
+.sel .conns { display: grid; gap: 4px; font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-2); }
+.pill { display: inline-flex; align-items: baseline; gap: 7px; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px 2px 7px;
+  border-radius: 7px; background: var(--raise-2); border: 1px solid var(--line); }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--st-tbd); flex: none; transform: translateY(-1px); }
+.pill[data-s="LOCKED"]::before { background: var(--st-locked); }
+.pill[data-s="CANDIDATE"]::before { background: var(--st-cand); }
+.pill[data-s="PROPOSED"]::before { background: var(--st-prop); }
+.legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; font-size: 12px; color: var(--fg-2); }
+.legend b { grid-column: 1 / -1; font-family: var(--font-mono); font-weight: 500; letter-spacing: .13em; font-size: 10px; color: var(--muted); }
+.legend span { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.legend i { width: 18px; height: 3px; border-radius: 2px; flex: none; }
+.legend i.dash { background: linear-gradient(90deg, currentColor 60%, transparent 60%) !important; background-size: 7px 3px !important; }
+.tree { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.tree.sub { border-left: 1px solid var(--line); margin: 2px 0 2px 12px; padding-left: 8px; grid-column: 1 / -1; }
+.tree li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; }
+.tree .go { display: flex; align-items: center; gap: 10px; background: none; border: 0; text-align: left; padding: 6px 8px; border-radius: 8px;
+  cursor: pointer; font-family: var(--font-display); font-weight: 500; font-size: 12.5px; letter-spacing: .02em; min-width: 0; color: var(--fg); }
+.tree .go:hover { background: var(--raise-2); }
+.tree .go i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.tree .go .nm { min-width: 0; line-height: 1.25; overflow-wrap: anywhere; }
+.tree .go small { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0;
+  background: var(--raise-2); border-radius: 999px; padding: 1px 7px; flex: none; }
+.tree .root { font-weight: 700; font-size: 13.5px; }
+.eye { width: 30px; height: 30px; display: grid; place-items: center; background: none; border: 1px solid transparent; color: var(--muted);
+  border-radius: 8px; cursor: pointer; padding: 0; }
+.eye .i { width: 16px; height: 16px; }
+.eye .off, .eye[aria-pressed="false"] .on { display: none; }
+.eye[aria-pressed="false"] .off { display: block; }
+.eye:hover { border-color: var(--line-2); color: var(--fg); }
+.eye[aria-pressed="false"] { color: var(--st-prop); }
+.slider { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; font-size: 13px; }
+.slider + .slider { margin-top: 12px; }
+.slider output { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.slider input { grid-column: 1 / -1; width: 100%; height: 22px; margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.slider input::-webkit-slider-runnable-track { height: 4px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent) var(--v, 100%), var(--raise-2) var(--v, 100%)); }
+.slider input::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -6px; border-radius: 50%;
+  background: var(--surface-solid); border: 3px solid var(--accent); box-shadow: 0 0 0 4px var(--glow); }
+.slider input::-moz-range-track { height: 4px; border-radius: 4px; background: var(--raise-2); }
+.slider input::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--accent); }
+.slider input::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--surface-solid); border: 3px solid var(--accent); }
+.slider input:disabled { opacity: .35; cursor: not-allowed; }
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 7px 14px; margin: 0; font-size: 12.5px; align-items: center; }
+.keys dt { white-space: nowrap; color: var(--fg-2); font-size: 12px; }
+.keys dd { margin: 0; color: var(--fg-2); }
+kbd { font-family: var(--font-mono); font-size: 10.5px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 5px;
+  padding: 0 5px; color: var(--fg); background: var(--raise); }
+.states { display: grid; gap: 8px; font-size: 12px; color: var(--fg-2); }
+.states div { display: grid; grid-template-columns: 104px 1fr; gap: 10px; align-items: baseline; }
+details.cad { padding: 12px 14px; }
+details.cad summary { cursor: pointer; font-family: var(--font-mono); font-weight: 500; text-transform: uppercase; letter-spacing: .12em; font-size: 10.5px; color: var(--muted); }
+details.cad summary:hover { color: var(--fg); }
+details.cad .grp { margin-top: 12px; }
+details.cad .grp b { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); font-weight: 500; display: block; margin-bottom: 5px; }
+details.cad .objs { display: flex; flex-wrap: wrap; gap: 4px; }
+details.cad .objs button { font-family: var(--font-mono); font-size: 10px; background: var(--raise); border: 1px solid var(--line); border-radius: 5px;
+  padding: 2px 6px; cursor: pointer; }
+details.cad .objs button:hover { border-color: var(--accent); color: var(--accent); }
+.foot { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin: 2px 2px 4px; }
+
+/* up to 1599px: compact icon rail */
+@media (min-width: 820px) and (max-width: 1599px) {
+  :root { --rail-w: 86px; --panel-w: 348px; }
+  .rail { padding: 8px 6px; gap: 6px; }
+  .modes { gap: 2px; }
+  .modes .grp { height: 1px; margin: 7px 10px; background: var(--line); }
+  .modes .grp span { display: none; }
+  .modes button { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 4px; padding: 5px 2px 6px; text-align: center; }
+  .modes .ic { width: 32px; height: 32px; }
+  .modes .tx, .rail-foot { display: none; }
+  .modes .sh { display: block; font-family: var(--font-display); font-weight: 600; font-size: 10.5px; line-height: 1.15; color: var(--fg-2); }
+  .modes button[aria-pressed="true"] .sh { color: var(--fg); }
+  .modes button[aria-pressed="true"]::before { left: -7px; }
+}
+@media (max-width: 1180px) { :root { --panel-w: 316px; } .title span { display: none; } }
+@media (max-width: 1700px) { .truth .l { display: none; } .truth .s { display: inline; } }
+@media (max-width: 1120px) and (min-width: 820px) { .title, .vr { display: none; } }
+@media (max-width: 819px) {
+  body { overflow: auto; }
+  .app { height: auto; min-height: 100%; grid-template-rows: auto auto; }
+  header.top { flex-wrap: wrap; padding: 10px 12px; gap: 8px 10px; }
+  .title, .vr { display: none; }
+  .actions { margin-left: auto; }
+  .truth { order: 3; margin-left: 0; width: 100%; justify-content: center; white-space: normal; text-align: center; font-size: 10.5px; }
+  .truth .l { display: inline; }
+  .truth .s { display: none; }
+  .main { grid-template-columns: minmax(0, 1fr); padding: 8px; gap: 8px; }
+  .rail { background: none; border: 0; box-shadow: none; padding: 0; overflow: visible; }
+  .modes { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 2px; scrollbar-width: none; }
+  .modes::-webkit-scrollbar { display: none; }
+  .modes .grp, .modes .tx small, .rail-foot { display: none; }
+  .modes button { width: auto; flex: none; grid-template-columns: auto auto; gap: 8px; padding: 5px 12px 5px 5px; border-color: var(--line);
+    background: var(--surface); border-radius: 999px; }
+  .modes .ic { width: 28px; height: 28px; border-radius: 50%; }
+  .modes .ic .i { width: 16px; height: 16px; }
+  .modes .tx b { font-size: 12.5px; white-space: nowrap; }
+  .modes button[aria-pressed="true"]::before { display: none; }
+  .stage { height: 62vh; min-height: 360px; }
+  aside.panel { overflow: visible; }
+  .pbody { overflow: visible; }
+  .co { font-size: 11px; padding: 2px 6px; }
+  .co.primary { font-size: 13px; }
+}
+@media (max-width: 420px) { .who span { display: none; } .tools button { padding: 0 9px 0 8px; } }
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; }
+  .sonar i { animation: none; opacity: .5; }
+  .sonar i:nth-child(2) { transform: scale(.6); } .sonar i:nth-child(3) { display: none; }
+  .hint, .load, .load .bar i, .modes .ic { transition: none; }
+}
+
+/* ---------- r07: header search + tour, stage tour / isolate / welcome, section plane, snapshot, diagram, palette, toasts */
+.search { flex: 1 1 240px; max-width: 360px; min-width: 0; margin-left: auto; display: flex; align-items: center; gap: 9px; height: 38px;
+  padding: 0 7px 0 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--raise); color: var(--muted); cursor: pointer; text-align: left; }
+.search:hover { border-color: var(--line-2); color: var(--fg-2); background: var(--raise-2); }
+.search .i { width: 16px; height: 16px; }
+.search .ph { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+.search kbd { flex: none; }
+.tour-btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px 0 11px; border-radius: 10px; border: 0; cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 13px; color: var(--accent-fg); white-space: nowrap;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 8px 20px -10px var(--accent); }
+.tour-btn:hover { filter: brightness(1.08); }
+.tour-btn .i, .cta .play, .welcome .play, #tourPlay .i { fill: currentColor; stroke: none; }
+.tour-btn .i { width: 15px; height: 15px; }
+
+.caption.swap { animation: capIn .45s ease; }
+@keyframes capIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.tools .sep { width: 1px; align-self: stretch; margin: 5px 3px; background: var(--line); }
+.tools .sect { display: inline-flex; align-items: center; gap: 8px; padding: 0 10px; font-family: var(--font-display); font-weight: 600;
+  font-size: 12.5px; color: var(--fg-2); border-right: 1px solid var(--line); margin-right: 2px; }
+.tools .sect input { width: 112px; accent-color: var(--accent); }
+.tools .sect output { font-family: var(--font-mono); font-size: 11px; color: var(--accent); min-width: 46px; font-variant-numeric: tabular-nums; }
+.stage.touring .tools .lbl { display: none; }
+.stage.touring .tools button { padding: 0 9px; }
+@container (max-width: 860px) { .tools .lbl { display: none; } .tools button { padding: 0 9px; } .tools .sect input { width: 84px; } }
+
+.iso { position: absolute; left: 16px; top: 14px; display: flex; align-items: center; gap: 9px; z-index: 4;
+  padding: 5px 5px 5px 11px; border-radius: 999px; background: var(--surface-solid); border: 1px solid var(--sel-line); box-shadow: var(--shadow);
+  font-size: 12.5px; color: var(--fg-2); max-width: calc(100% - 32px - var(--tags-w, 0px)); }
+.iso span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stage.isolating .caption { display: none; }
+.iso .i { width: 15px; height: 15px; color: var(--accent); }
+.iso b { color: var(--fg); font-family: var(--font-display); font-weight: 600; }
+.iso button { height: 26px; padding: 0 11px; border-radius: 999px; border: 0; background: var(--accent); color: var(--accent-fg);
+  font-family: var(--font-display); font-weight: 600; font-size: 12px; cursor: pointer; }
+@container (max-width: 700px) { .iso { max-width: calc(100% - 32px); } }
+
+.welcome { position: absolute; left: 14px; bottom: 14px; z-index: 4; display: flex; align-items: center; gap: 12px; padding: 9px 9px 9px 10px;
+  max-width: calc(100% - 480px); border-radius: 14px; background: var(--surface-solid); border: 1px solid var(--sel-line);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4), 0 0 0 4px var(--glow); animation: capIn .5s ease; }
+.welcome .w-ic { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--accent-fg);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.welcome .w-ic .i { width: 15px; height: 15px; }
+.welcome .w-tx { display: grid; min-width: 0; line-height: 1.25; }
+.welcome b { font-family: var(--font-display); font-weight: 600; font-size: 14px; }
+.welcome small { color: var(--muted); font-size: 11.5px; }
+.welcome .w-go { height: 32px; padding: 0 13px; border-radius: 9px; border: 0; background: var(--accent); color: var(--accent-fg); cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 12.5px; white-space: nowrap; }
+.welcome .w-x { width: 28px; height: 28px; border-radius: 8px; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
+.welcome .w-x:hover { color: var(--fg); background: var(--raise-2); }
+@container (max-width: 960px) { .welcome { max-width: calc(100% - 330px); } .welcome small { display: none; } }
+@container (max-width: 700px) {                      /* narrow stage: the offer sits above the camera tools, the tags above the offer */
+  .welcome { max-width: none; left: 10px; right: 10px; bottom: 60px; }
+  .stage.offering .tags { bottom: 124px; }
+}
+
+.tour { position: absolute; left: 14px; bottom: 14px; z-index: 5; width: min(540px, calc(100% - 330px)); display: grid; gap: 6px;
+  padding: 14px 16px 12px; border-radius: 16px; background: var(--surface-solid); border: 1px solid var(--sel-line);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, .45), 0 0 0 4px var(--glow); animation: capIn .35s ease; }
+.tour-top { display: flex; align-items: center; justify-content: space-between; }
+.tour-k { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.tour-x { width: 28px; height: 28px; border-radius: 8px; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 19px; line-height: 1; }
+.tour-x:hover { color: var(--fg); background: var(--raise-2); }
+.tour-t { font-family: var(--font-display); font-weight: 700; font-size: 19px; line-height: 1.2; letter-spacing: -.005em; }
+.tour-s { margin: 0; font-size: 13px; line-height: 1.55; color: var(--fg-2); }
+.tour-bar { display: flex; gap: 4px; margin: 6px 0 4px; }
+.tour-bar button { flex: 1; height: 5px; padding: 0; border: 0; border-radius: 5px; background: var(--raise-2); cursor: pointer; }
+.tour-bar button:hover { background: var(--line-2); }
+.tour-bar .done { background: var(--sel-line); }
+.tour-bar .cur { background: var(--accent); }
+.tour.playing .tour-bar .cur { background: linear-gradient(var(--accent), var(--accent)) left / 0% 100% no-repeat, var(--raise-2); animation: tourFill 9s linear forwards; }
+@keyframes tourFill { to { background-size: 100% 100%, auto; } }
+.tour-nav { display: flex; gap: 8px; justify-content: flex-end; }
+.tour-nav button { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 10px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 13px; }
+.tour-nav .i { width: 15px; height: 15px; }
+.tour-nav .ghost { background: var(--raise); border: 1px solid var(--line); color: var(--fg-2); }
+.tour-nav .ghost:hover:not(:disabled) { color: var(--fg); border-color: var(--line-2); }
+.tour-nav .ghost:disabled { opacity: .4; cursor: default; }
+.tour-nav .primary { border: 0; color: var(--accent-fg); background: linear-gradient(135deg, var(--accent), var(--accent-2)); padding: 0 12px 0 16px; }
+#tourPlay .pause, #tourPlay[aria-pressed="true"] .play { display: none; }
+#tourPlay[aria-pressed="true"] .pause { display: block; }
+#tourPlay[aria-pressed="true"] { color: var(--accent); border-color: var(--sel-line); background: var(--sel-bg); }
+.stage.touring .caption, .stage.touring .hint, .stage.touring .welcome { display: none; }
+@container (max-width: 700px) {
+  .tour { left: 10px; right: 10px; bottom: 10px; width: auto; padding: 12px 13px 10px; }
+  .tour-t { font-size: 16px; }
+  .tour-s { font-size: 12.5px; }
+  .stage.touring .tools { display: none; }
+  .stage.touring .tags { top: 12px; bottom: auto; }
+}
+
+.crumb { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: -4px; }
+.sel-act { display: flex; flex-wrap: wrap; gap: 6px; }
+.sel-act button { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--raise); color: var(--fg-2); font-family: var(--font-display); font-weight: 600; font-size: 12px; }
+.sel-act button:hover { color: var(--fg); border-color: var(--accent); }
+.sel-act button[aria-pressed="true"] { color: var(--accent); background: var(--sel-bg); border-color: var(--sel-line); }
+.sel-act .i { width: 14px; height: 14px; }
+
+.cta { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; margin-top: 14px;
+  padding: 10px 12px 10px 10px; border-radius: 12px; border: 1px solid var(--sel-line); text-align: left; cursor: pointer;
+  background: linear-gradient(135deg, var(--sel-bg), transparent 80%); }
+.cta > .play { width: 36px; height: 36px; padding: 10px; border-radius: 50%; color: var(--accent-fg); background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.cta span { display: grid; line-height: 1.25; min-width: 0; }
+.cta b { font-family: var(--font-display); font-weight: 600; font-size: 14px; }
+.cta small { font-size: 11.5px; color: var(--muted); }
+.cta > .i:last-child { width: 16px; height: 16px; color: var(--accent); }
+.cta:hover { border-color: var(--accent); }
+
+.diagram .label { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.diagram .label span { font-family: var(--font-body); text-transform: none; letter-spacing: 0; font-size: 11px; }
+#diag { display: block; width: 100%; height: auto; overflow: visible; }
+#diag .edges path { fill: none; stroke-width: 1.6; }
+#diag .water path { fill: none; stroke-width: 1.3; opacity: .55; }
+#diag .note { font: 500 9px var(--font-mono); fill: var(--muted); text-anchor: middle; letter-spacing: .02em; }
+#diag .blk { cursor: pointer; outline: none; transition: opacity .25s; }
+#diag .blk rect { fill: var(--raise-2); stroke: var(--bc); stroke-opacity: .5; stroke-width: 1.2; transition: fill .2s, stroke-opacity .2s; }
+#diag .blk:hover rect, #diag .blk:focus-visible rect { fill: var(--sel-bg); stroke-opacity: 1; }
+#diag .blk.on rect { fill: var(--sel-bg); stroke-opacity: 1; stroke-width: 2.2; }
+#diag .blk.dim { opacity: .28; }
+#diag .t { font: 600 11.5px var(--font-display); fill: var(--fg); }
+#diag .s { font: 500 9.5px var(--font-body); fill: var(--muted); }
+
+.palette { position: fixed; inset: 0; z-index: 50; display: grid; justify-items: center; align-items: start; padding: 11vh 16px 16px;
+  background: rgba(3, 6, 10, .55); backdrop-filter: blur(4px); }
+.pal { width: min(700px, 100%); max-height: 74vh; display: flex; flex-direction: column; overflow: hidden; border-radius: 16px;
+  background: var(--surface-solid); border: 1px solid var(--line-2); box-shadow: 0 30px 80px rgba(0, 0, 0, .5); animation: capIn .2s ease; }
+.pal-in { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.pal-in .i { width: 19px; height: 19px; }
+.pal-in input { flex: 1; min-width: 0; border: 0; outline: none; background: none; color: var(--fg); font: 500 16px var(--font-body); }
+.pal-in input::placeholder { color: var(--muted); }
+#palList { list-style: none; margin: 0; padding: 6px; overflow-y: auto; flex: 1; }
+#palList .pal-h { padding: 10px 10px 4px; font: 500 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+#palList [role="option"] { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 11px; align-items: center; padding: 7px 10px;
+  border-radius: 10px; cursor: pointer; }
+#palList [role="option"][aria-selected="true"] { background: var(--sel-bg); box-shadow: inset 0 0 0 1px var(--sel-line); }
+#palList i { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font-style: normal; font-size: 13px; color: #0b0f14; }
+#palList b { display: block; font: 600 13.5px var(--font-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#palList small { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#palList code { font: 500 10.5px var(--font-mono); color: var(--muted); }
+#palList .pal-empty { padding: 18px 14px; font-size: 13px; color: var(--muted); }
+.pal-foot { display: flex; gap: 16px; padding: 9px 14px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); }
+.pal-foot .r { margin-left: auto; }
+
+.toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 60; display: grid; gap: 8px; justify-items: center; pointer-events: none; }
+.toast { max-width: min(92vw, 640px); padding: 9px 14px; border-radius: 10px; background: var(--surface-solid); color: var(--fg); border: 1px solid var(--line-2);
+  box-shadow: var(--shadow); font-size: 13px; overflow-wrap: anywhere; opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s; pointer-events: auto; }
+.toast.in { opacity: 1; transform: none; }
+
+@media (max-width: 1280px) { .search { max-width: 260px; } }
+@media (max-width: 1000px) and (min-width: 820px) {
+  .search { flex: 0 0 38px; padding: 0; justify-content: center; }
+  .search .ph, .search kbd { display: none; }
+  .tour-btn span { display: none; }
+  .tour-btn { padding: 0 11px; }
+}
+@media (max-width: 819px) {
+  .search { order: 2; flex: 0 0 36px; height: 36px; margin-left: auto; padding: 0; justify-content: center; }
+  .search .ph, .search kbd { display: none; }
+  .actions { order: 2; margin-left: 0; }
+  .tour-btn span, #focusBtn, #fsBtn { display: none; }
+  .tour-btn { padding: 0 10px; }
+  .palette { padding: 0; align-items: stretch; }
+  .pal { max-height: none; height: 100%; border-radius: 0; border: 0; }
+  .pal-foot { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .caption.swap, .welcome, .tour, .pal { animation: none; }
+  .tour.playing .tour-bar .cur { animation: none; background: var(--accent); }
+}
+</style>
+
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="8.5" cy="16" r="2.6" fill="currentColor" stroke="none"/><path d="M13.5 10.5a8 8 0 0 1 0 11"/><path d="M18 7a13 13 0 0 1 0 18" opacity=".7"/><path d="M22.5 3.5a18 18 0 0 1 0 25" opacity=".4"/></svg></span>
+      <span class="who"><b>Lightning Logics</b><span>SIH 2026 · PS 26058</span></span>
+    </div>
+    <span class="vr" aria-hidden="true"></span>
+    <div class="title"><b>B300 Transmitter Payload · Digital Twin</b><span>Adaptive software-defined sonar transmitter for AUVs</span></div>
+    <button class="search" id="searchBtn" type="button" aria-haspopup="dialog" aria-controls="palette" title="Search parts, views, connections and actions (Ctrl K or /)">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span class="ph">Search parts, views, connections…</span><kbd>Ctrl K</kbd>
+    </button>
+    <div class="truth" role="note" title="AUV platform geometry is proposed presentation-level geometry. Transmitter payload is linked from the SIH26058 B300 presentation model.">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.2M12 16.9v.1"/></svg>
+      <span class="l">System-level CAD — presentation model — not fabricated</span><span class="s">Presentation model — not fabricated</span>
+    </div>
+    <div class="actions">
+      <button class="tour-btn" id="tourBtn" type="button" data-tour title="Guided tour of the design (T)"><svg class="i play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><span>Guided tour</span></button>
+      <button class="ib" id="themeBtn" type="button" title="Switch light / dark theme" aria-label="Switch light or dark theme">
+        <svg class="i sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M2.5 12h2M19.5 12h2M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+        <svg class="i moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.6A8 8 0 0 1 9.4 4a8 8 0 1 0 10.6 10.6z"/></svg>
+      </button>
+      <button class="ib" id="focusBtn" type="button" title="Presentation layout: hide the side panels (P)" aria-label="Hide the side panels" aria-pressed="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M8.5 4.5v15M15.5 4.5v15"/></svg>
+      </button>
+      <button class="ib" id="fsBtn" type="button" title="Full screen" aria-label="Full screen" aria-pressed="false">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="main">
+    <nav class="rail surface" aria-label="View mode">
+      <div class="modes" id="modes">
+        <p class="grp"><span>Model views</span></p>
+        <button id="m-complete" data-mode="complete" aria-pressed="true" title="Complete AUV (key 1)">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12c0-1.9 1.9-3.3 4.6-3.3h7.1c2.4 0 4.6 1.3 5.3 3.3-.7 2-2.9 3.3-5.3 3.3H9.1c-2.7 0-4.6-1.4-4.6-3.3z"/><path d="M9.5 8.7 10.8 6h3.1l.9 2.7"/><path d="M2 9v6M4.5 12H2"/></svg></span>
+          <span class="tx"><b>Complete AUV</b><small>Vehicle with the payload</small></span><span class="sh">AUV</span></button>
+        <button id="m-payload" data-mode="payload" aria-pressed="false" title="Transmitter payload (key 2)">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="6.5" cy="12" rx="2.5" ry="5.5"/><path d="M6.5 6.5h11M6.5 17.5h11"/><path d="M17.5 6.5c1.4 0 2.5 2.5 2.5 5.5s-1.1 5.5-2.5 5.5"/><path d="M10.5 10h5M10.5 14h3"/></svg></span>
+          <span class="tx"><b>Transmitter payload</b><small>B300 board layout</small></span><span class="sh">Payload</span></button>
+        <button id="m-cutaway" data-mode="cutaway" aria-pressed="false" title="Cutaway (key 3)">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13a8.5 8.5 0 0 1 17 0"/><path d="M8 13a4 4 0 0 1 8 0"/><path d="M2.5 13h19"/><path d="M4 17h16" stroke-dasharray="2 2.6"/></svg></span>
+          <span class="tx"><b>Cutaway</b><small>Centreline section, both bands</small></span><span class="sh">Cutaway</span></button>
+        <button id="m-exploded" data-mode="exploded" aria-pressed="false" title="Payload exploded (key 4)">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20.5 7 12 11 3.5 7z"/><path d="M3.5 12 12 16l8.5-4"/><path d="M3.5 16.8 12 20.8l8.5-4"/></svg></span>
+          <span class="tx"><b>Payload exploded</b><small>Subsystems separated</small></span><span class="sh">Exploded</span></button>
+        <p class="grp"><span>Signal &amp; power paths</span></p>
+        <button id="m-arch" data-mode="arch" aria-pressed="false" title="Payload architecture (key 5)">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="6.5" height="5" rx="1.3"/><rect x="14.5" y="4" width="6.5" height="5" rx="1.3"/><rect x="8.75" y="15" width="6.5" height="5" rx="1.3"/><path d="M6.25 9v2.8h11.5V9M12 11.8V15"/></svg></span>
+          <span class="tx"><b>Payload architecture</b><small>All register connections</small></span><span class="sh">Arch.</span></button>
+        <button id="m-pathL" data-mode="pathL" aria-pressed="false" title="Band L – ~120 kHz path (key 6)" style="--mc:#ff8a1f">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12c2.2-6.5 5.3-6.5 7 0s4.8 6.5 7 0 4.8-6.5 7 0"/></svg></span>
+          <span class="tx"><b>Band L – ~120 kHz path</b><small>Long-range / low-frequency</small></span><span class="sh">Band L</span></button>
+        <button id="m-pathH" data-mode="pathH" aria-pressed="false" title="500 kHz path · Band H (key 7)" style="--mc:#b25be8">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12c1-4 2-4 3 0s2 4 3 0 2-4 3 0 2 4 3 0 2-4 3 0 2 4 3 0 2-4 3 0"/></svg></span>
+          <span class="tx"><b>500 kHz path</b><small>Band H · higher resolution</small></span><span class="sh">500 kHz</span></button>
+        <button id="m-power" data-mode="power" aria-pressed="false" title="Power path (key 8)" style="--mc:#ef5a5f">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2.5 5 13.5h6.5l-1 8 8.5-11h-6.5z"/></svg></span>
+          <span class="tx"><b>Power path</b><small>Bus → 3.3 V / 30 V PA rail</small></span><span class="sh">Power</span></button>
+        <button id="m-sensing" data-mode="sensing" aria-pressed="false" title="Sensing (key 9)" style="--mc:#3fb563">
+          <span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.2 17a8.5 8.5 0 1 1 15.6 0"/><path d="M12 14.5 15.5 9.5"/><circle cx="12" cy="15" r="1.5"/></svg></span>
+          <span class="tx"><b>Sensing</b><small>Sensors → STM32G474</small></span><span class="sh">Sensing</span></button>
+      </div>
+      <div class="rail-foot">
+        <b>Acoustic bands</b>
+        <span><i style="background:#ff8a1f"></i>Band L · ~120 kHz class</span>
+        <span><i style="background:#b25be8"></i>Band H · 500 kHz class</span>
+        <span><i style="background:#ffe066"></i>Common chain · DAC → TP1</span>
+      </div>
+    </nav>
+    <div class="stage" id="stage">
+      <canvas id="view" aria-label="Interactive 3D model: complete AUV with the B300 transmitter payload"></canvas>
+      <svg id="leaders" aria-hidden="true"></svg>
+      <div class="callouts" id="callouts"></div>
+      <div class="caption" id="caption"><b id="capT">COMPLETE AUV</b><span id="capS"></span></div>
+      <div class="tags" id="tags"></div>
+      <div class="hint" id="hint"><span><kbd>Left-drag</kbd>Rotate</span><span><kbd>Right-drag</kbd>Pan</span><span><kbd>Wheel</kbd>Zoom</span><span><kbd>Double-click</kbd>Focus</span></div>
+      <div class="tools" role="toolbar" aria-label="Camera">
+        <label class="sect" id="sect" hidden title="Move the section plane through the vehicle">
+          <span class="lbl">Section</span><input id="sectR" type="range" min="-60" max="60" step="1" value="0" aria-label="Section plane offset"><output id="sectV">0 mm</output>
+        </label>
+        <button type="button" id="fitBtn" title="Fit the selection, or the content of this view (F)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5V5a1 1 0 0 1 1-1h3.5M15.5 4H19a1 1 0 0 1 1 1v3.5M20 15.5V19a1 1 0 0 1-1 1h-3.5M8.5 20H5a1 1 0 0 1-1-1v-3.5"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl">Fit view</span></button>
+        <button type="button" id="resetBtn" title="Return to the default camera of this view (R)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg><span class="lbl">Reset view</span></button>
+        <span class="sep" aria-hidden="true"></span>
+        <button type="button" id="snapBtn" title="Save this view as a PNG with its labels"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.2L9.2 5h5.6l1.5 2h2.2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg><span class="lbl">Snapshot</span></button>
+      </div>
+      <div class="iso" id="iso" hidden role="status"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.5"/></svg><span>Isolated · <b id="isoName"></b></span><button type="button" id="isoOff">Show all</button></div>
+      <div class="welcome" id="welcome" hidden role="dialog" aria-label="Guided tour offer">
+        <span class="w-ic"><svg class="i play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></span><span class="w-tx"><b>New here? Take the guided tour</b><small>10 steps through the design · about 2 minutes</small></span>
+        <button type="button" class="w-go" id="welcomeGo">Start tour</button><button type="button" class="w-x" id="welcomeX" aria-label="Dismiss" title="Dismiss">×</button>
+      </div>
+      <section class="tour" id="tour" hidden aria-label="Guided tour" aria-live="polite">
+        <div class="tour-top"><span class="tour-k" id="tourK"></span><button type="button" class="tour-x" id="tourX" aria-label="End the tour" title="End the tour (Esc)">×</button></div>
+        <b class="tour-t" id="tourT"></b>
+        <p class="tour-s" id="tourS"></p>
+        <div class="tour-bar" id="tourBar"></div>
+        <div class="tour-nav">
+          <button type="button" id="tourPrev" class="ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Back</button>
+          <button type="button" id="tourPlay" class="ghost" aria-pressed="false" title="Play the tour automatically"><svg class="i play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><svg class="i pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5h3v13H8zM13 5.5h3v13h-3z"/></svg><span>Auto</span></button>
+          <button type="button" id="tourNext" class="primary">Next</button>
+        </div>
+      </section>
+      <div class="gizmo" id="gizmo" title="Click an axis to look along it"></div>
+      <div class="gizmo-cap">+X aft · +Y up</div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="load" id="load">
+        <div class="sonar" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
+        <b>Loading digital twin</b>
+        <div class="bar" aria-hidden="true"><i id="loadBar"></i></div>
+        <span class="msg" id="status" role="status">Fetching the CAD model</span>
+      </div>
+      <div class="frame" aria-hidden="true"></div>
+    </div>
+    <aside class="panel surface" id="panel">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Inspector">
+        <button type="button" role="tab" id="t-inspect" data-tab="inspect" aria-selected="true" aria-controls="p-inspect">Inspect</button>
+        <button type="button" role="tab" id="t-tree" data-tab="tree" aria-selected="false" aria-controls="p-tree" tabindex="-1">Components</button>
+        <button type="button" role="tab" id="t-display" data-tab="display" aria-selected="false" aria-controls="p-display" tabindex="-1">Display</button>
+      </div>
+      <div class="pbody" id="p-inspect" role="tabpanel" aria-labelledby="t-inspect">
+        <section class="card sel" id="sel" hidden aria-live="polite">
+          <div class="crumb" id="sPath"></div>
+          <div class="top"><h2 id="sName"></h2><button class="x" id="sClose" type="button">Clear</button></div>
+          <div class="sel-act">
+            <button type="button" id="sFocus" title="Frame the selection (F)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5V5a1 1 0 0 1 1-1h3.5M15.5 4H19a1 1 0 0 1 1 1v3.5M20 15.5V19a1 1 0 0 1-1 1h-3.5M8.5 20H5a1 1 0 0 1-1-1v-3.5"/><circle cx="12" cy="12" r="3"/></svg>Focus</button>
+            <button type="button" id="sIso" aria-pressed="false" title="Show only the selection (Esc ends it)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.5"/></svg>Isolate</button>
+            <button type="button" id="sLink" title="Copy a link that opens this part in this view"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Copy link</button>
+          </div>
+          <div id="sRows"></div>
+        </section>
+        <section class="card chain" id="chain" hidden aria-live="polite"></section>
+        <section class="card legend" id="legend" hidden></section>
+        <section class="card diagram" id="diagCard">
+          <p class="label">System diagram <span>click · hover</span></p>
+          <svg id="diag" viewBox="0 0 320 350" role="group" aria-label="Transmit chain block diagram"></svg>
+        </section>
+        <section class="card intro" id="about">
+          <div class="k">SIH 2026 · PS 26058 · Proposed design</div>
+          <h1>Adaptive software-defined sonar transmitter payload</h1>
+          <p>An STM32G474 adapts the waveform (band, frequency, bandwidth, pulse, PRI and drive level) to depth, temperature and
+            host-provided water parameters, and drives two acoustic bands from one DAC. Only the selected band is enabled for each ping.</p>
+          <div class="stats">
+            <div><b>2</b><span>acoustic bands</span></div>
+            <div><b>1</b><span>DAC for both bands</span></div>
+            <div><b id="stLinks">—</b><span>register connections</span></div>
+            <div><b id="stObjs">—</b><span>CAD objects</span></div>
+          </div>
+          <div class="bands">
+            <button class="band" type="button" data-go="pathL" style="--bc:#ff8a1f"><span><b>Band L · ~120 kHz class</b><small>Long-range / low-frequency path</small></span>
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <button class="band" type="button" data-go="pathH" style="--bc:#b25be8"><span><b>Band H · 500 kHz class</b><small>High-frequency / higher-resolution path</small></span>
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+          <button class="cta" type="button" data-tour><svg class="i play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><span><b>Take the guided tour</b><small>10 steps through the design · about 2 minutes · T</small></span>
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <div class="note"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.2M12 16.9v.1"/></svg>
+            <span><b>Presentation model, not fabricated.</b> AUV platform geometry is proposed presentation-level geometry. Transmitter payload
+              is linked from the SIH26058 B300 presentation model. Both projectors are PROPOSED / CANDIDATE and not acoustically tested; matching
+              values are to be tuned from impedance measurement.</span></div>
+        </section>
+      </div>
+      <div class="pbody" id="p-tree" role="tabpanel" aria-labelledby="t-tree" hidden>
+        <section class="card">
+          <p class="label">Transmitter payload</p>
+          <ul class="tree" id="treePay"></ul>
+        </section>
+        <section class="card">
+          <p class="label">AUV context</p>
+          <ul class="tree" id="treeAuv"></ul>
+        </section>
+        <details class="cad card" id="cad">
+          <summary>Detailed CAD objects (<span id="nObj">—</span>)</summary>
+          <div id="cadList"></div>
+        </details>
+      </div>
+      <div class="pbody" id="p-display" role="tabpanel" aria-labelledby="t-display" hidden>
+        <section class="card ctl">
+          <p class="label">Display</p>
+          <div class="slider"><label for="payOp">B300 housing opacity</label><output id="payOpV">100 %</output>
+            <input id="payOp" type="range" min="0" max="100" value="100"></div>
+          <div class="slider"><label for="hullOp">AUV hull midbody opacity</label><output id="hullOpV">20 %</output>
+            <input id="hullOp" type="range" min="0" max="100" value="20"></div>
+        </section>
+        <section class="card" id="keysCard">
+          <p class="label">Controls</p>
+          <dl class="keys">
+            <dt><kbd>Ctrl</kbd> <kbd>K</kbd> or <kbd>/</kbd></dt><dd>Search parts, views, connections, actions</dd>
+            <dt><kbd>T</kbd></dt><dd>Guided tour · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>Esc</kbd> end</dd>
+            <dt><kbd>1</kbd> – <kbd>9</kbd></dt><dd>Switch view (in rail order)</dd>
+            <dt><kbd>F</kbd></dt><dd>Fit the selection or the view</dd>
+            <dt><kbd>R</kbd></dt><dd>Reset the camera of this view</dd>
+            <dt><kbd>P</kbd></dt><dd>Presentation layout (hide the panels)</dd>
+            <dt><kbd>Esc</kbd></dt><dd>End isolation, then clear the selection</dd>
+            <dt><kbd>?</kbd></dt><dd>Show this list</dd>
+            <dt>Left-drag</dt><dd>Rotate · one finger on touch</dd>
+            <dt>Right-drag</dt><dd>Pan · two fingers on touch</dd>
+            <dt>Wheel</dt><dd>Zoom towards the cursor · pinch</dd>
+            <dt>Double-click</dt><dd>Focus a part</dd>
+          </dl>
+        </section>
+        <section class="card">
+          <p class="label">Evidence status</p>
+          <div class="states">
+            <div><span class="pill" data-s="LOCKED">LOCKED</span><span>Part chosen and fixed</span></div>
+            <div><span class="pill" data-s="CANDIDATE">CANDIDATE</span><span>Candidate part, not locked yet</span></div>
+            <div><span class="pill" data-s="PROPOSED">PROPOSED</span><span>Proposed design, not fabricated</span></div>
+            <div><span class="pill" data-s="TBD">TBD</span><span>To be determined</span></div>
+          </div>
+        </section>
+        <p class="foot">Names, roles, status and evidence on this page come from the CAD model, the component register and the
+          66-row connectivity register (r03). Finishes are presentation materials. Source: web model r06 = r03 (edited from the r02 export of
+          SIH26058_COMPLETE_AUV_PRESENTATION_r02.FCStd, payload linked from SIH26058_PAYLOAD_B300_r02_PRESENTATION_v2.FCStd, for the
+          Band L / Band H transducer architecture) plus the AUV-platform detail of SIH26058_AUV_PLATFORM_DETAIL_r04.FCStd and the payload
+          presentation detail of SIH26058_PAYLOAD_DETAIL_r06.FCStd;
+          SIH26058_CONNECTIVITY_REGISTER_r03.csv. Payload FreeCAD source update pending.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+<div class="palette" id="palette" hidden>
+  <div class="pal" role="dialog" aria-modal="true" aria-label="Search parts, views, connections and actions">
+    <div class="pal-in"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="palQ" type="text" placeholder="Search parts, views, register IDs, actions…" autocomplete="off" spellcheck="false"
+      role="combobox" aria-expanded="true" aria-controls="palList" aria-autocomplete="list"><kbd>Esc</kbd></div>
+    <ul id="palList" role="listbox" aria-label="Results"></ul>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span><span class="r">Try “THS3491”, “PA-L05”, “power”</span></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script type="application/json" id="register">[{"id": "SENS-01", "from": "BAR30", "to": "J_SENS_BAR30", "type": "SENSING", "band": "", "fn": "Depth/pressure (MS5837-30BA, I2C 0x76)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_BAR30_I2C, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SENS-02", "from": "CELSIUS", "to": "J_SENS_CEL", "type": "SENSING", "band": "", "fn": "Water temperature (TSYS01, I2C)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_CELSIUS_I2C, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SENS-03", "from": "SOS_PROBE_FWD", "to": "SOS_LEAK_BOARD", "type": "SENSING", "band": "", "fn": "Leak probe fwd", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_SOS_FWD, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SENS-04", "from": "SOS_PROBE_AFT", "to": "SOS_LEAK_BOARD", "type": "SENSING", "band": "", "fn": "Leak probe aft", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_SOS_AFT, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SENS-05", "from": "SOS_LEAK_BOARD", "to": "J_SENS_SOS", "type": "SENSING", "band": "", "fn": "Leak flag (GPIO high)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SENS-06", "from": "J_SENS_BAR30", "to": "STM32G474RE", "type": "SENSING", "band": "", "fn": "I2C bus: depth + temperature to MCU", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SENS-07", "from": "J_SENS_SOS", "to": "STM32G474RE", "type": "SENSING", "band": "", "fn": "Leak GPIO to MCU", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "DATA-01", "from": "PEN_PWR_DATA", "to": "J_DIG_HOST", "type": "DATA", "band": "", "fn": "AUV host data: mission parameters + environmental proxies (salinity, turbidity, range)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_AUV_DATA, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "DATA-02", "from": "J_DIG_HOST", "to": "STM32G474RE", "type": "DATA", "band": "", "fn": "Host UART/CAN (TBD) to MCU", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "FW-01", "from": "STM32G474RE", "to": "P3B_ADAPTATION_ENGINE", "type": "DATA", "band": "", "fn": "Inputs to adaptation engine (firmware on MCU)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "FW-02", "from": "P3B_ADAPTATION_ENGINE", "to": "P3B_WAVEFORM_GEN", "type": "DATA", "band": "", "fn": "Waveform parameters: band (L / H), f0, B, T, PRI, drive level, waveform type, window", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "FW-03", "from": "P3B_WAVEFORM_GEN", "to": "P3B_DAC3", "type": "DATA", "band": "L+H", "fn": "DDS phase accumulator + 4096-point sine table -> RAM buffer -> TIM+DMA -> DAC3 (single DAC, both bands)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "CTRL-01", "from": "STM32G474RE", "to": "THS3491_L1", "type": "DATA", "band": "L", "fn": "PD_L: enable Band L BTL pair L1/L2 (only the selected band is enabled for each ping)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "CTRL-02", "from": "STM32G474RE", "to": "THS3491_H1", "type": "DATA", "band": "H", "fn": "PD_H: enable Band H BTL pair H1/H2 (only the selected band is enabled for each ping)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "CTRL-03", "from": "STM32G474RE", "to": "LOAD_SWITCH_PA", "type": "DATA", "band": "", "fn": "LOAD_SW_EN", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "CTRL-04", "from": "STM32G474RE", "to": "LM5157", "type": "DATA", "band": "", "fn": "BOOST_EN", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "MON-01", "from": "INA241A", "to": "STM32G474RE", "type": "SENSING", "band": "", "fn": "30 V rail current -> ADC", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "MON-02", "from": "VSENSE_L", "to": "STM32G474RE", "type": "SENSING", "band": "L", "fn": "Band L PZT terminal voltage -> ADC", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "MON-03", "from": "VSENSE_H", "to": "STM32G474RE", "type": "SENSING", "band": "H", "fn": "Band H PZT terminal voltage -> ADC", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-01", "from": "P3B_DAC3", "to": "J_DIG_ANALOG", "type": "ANALOG", "band": "L+H", "fn": "DAC3 via internal OPAMP follower -> board connector (single DAC, both bands)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-02", "from": "J_DIG_ANALOG", "to": "J_ANALOG_DAC_CTRL", "type": "ANALOG", "band": "L+H", "fn": "DAC + PD_L / PD_H / EN harness (placeholder cable)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_DAC_CTRL, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SIG-03", "from": "J_ANALOG_DAC_CTRL", "to": "OPA2356", "type": "ANALOG", "band": "L+H", "fn": "DAC signal to OPA2356 (buffer / filter driver)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-04", "from": "OPA2356", "to": "RECON_FILTER", "type": "ANALOG", "band": "L+H", "fn": "Drive the common 4th-order Butterworth reconstruction filter (~600 kHz)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-05", "from": "RECON_FILTER", "to": "TP1", "type": "ANALOG", "band": "L+H", "fn": "Filtered waveform to TP1 (common test point, oscilloscope / FFT)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-L06", "from": "TP1", "to": "THS3491_L1", "type": "ANALOG", "band": "L", "fn": "Band L BTL + leg input", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-L07", "from": "TP1", "to": "THS3491_L2", "type": "ANALOG", "band": "L", "fn": "Band L BTL - leg input (inverting)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L01", "from": "THS3491_L1", "to": "J_ANALOG_OUT_L", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "BTL output +", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L02", "from": "THS3491_L2", "to": "J_ANALOG_OUT_L", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "BTL output -", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L03", "from": "J_ANALOG_OUT_L", "to": "J_MATCH_L_PA", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "PA -> Band L matching network (RG174 class, dry)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_PA_MATCH_L, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PA-L04", "from": "J_MATCH_L_PA", "to": "XFMR_L", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "Impedance transform (TBD)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L05", "from": "XFMR_L", "to": "L_TUNE_L", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "Shunt tuning inductor: initial value from the selected ~120 kHz-class PZT's C0 - TO BE TUNED FROM IMPEDANCE MEASUREMENT", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L06", "from": "L_TUNE_L", "to": "J_MATCH_L_PZT", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "Matched drive to PZT connector", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-L07", "from": "J_MATCH_L_PZT", "to": "CONN_PEN_AC_L", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "Dry acoustic cable (RG174 class)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_DRY_L_PZT, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PA-L08", "from": "PEN_AC_L", "to": "PZT_L_120k", "type": "HIGH-POWER ANALOG (PA)", "band": "L", "fn": "Wetted acoustic cable (TBD, WetLink seal 4.5-8.5)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_WET_L, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "SIG-H06", "from": "TP1", "to": "THS3491_H1", "type": "ANALOG", "band": "H", "fn": "Band H BTL + leg input", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "SIG-H07", "from": "TP1", "to": "THS3491_H2", "type": "ANALOG", "band": "H", "fn": "Band H BTL - leg input (inverting)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H01", "from": "THS3491_H1", "to": "J_ANALOG_OUT_H", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "BTL output +", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H02", "from": "THS3491_H2", "to": "J_ANALOG_OUT_H", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "BTL output -", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H03", "from": "J_ANALOG_OUT_H", "to": "J_MATCH_H_PA", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "PA -> 500 kHz matching network (RG174 class, dry)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_PA_MATCH_H, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PA-H04", "from": "J_MATCH_H_PA", "to": "XFMR_H", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "Impedance transform (TBD)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H05", "from": "XFMR_H", "to": "L_TUNE_H", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "Shunt tuning inductor: initial calculated target ~27 uH - TO BE TUNED FROM IMPEDANCE MEASUREMENT", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H06", "from": "L_TUNE_H", "to": "J_MATCH_H_PZT", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "Matched drive to PZT connector", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PA-H07", "from": "J_MATCH_H_PZT", "to": "CONN_PEN_AC_H", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "Dry acoustic cable (RG174 class)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_DRY_H_PZT, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PA-H08", "from": "PEN_AC_H", "to": "PZT_H_500k", "type": "HIGH-POWER ANALOG (PA)", "band": "H", "fn": "Wetted acoustic cable (TBD, WetLink seal 4.5-8.5)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_WET_H, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PWR-01", "from": "PEN_PWR_DATA", "to": "J_INPUT_BUS", "type": "POWER", "band": "", "fn": "AUV power input (bus TBD)", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_AUV_PWR, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PWR-02", "from": "J_INPUT_BUS", "to": "FUSE", "type": "POWER", "band": "", "fn": "Series fuse (TBD)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-03", "from": "FUSE", "to": "TVS", "type": "POWER", "band": "", "fn": "Transient clamp (TBD)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-04", "from": "TVS", "to": "TPS2663", "type": "POWER", "band": "", "fn": "eFuse / reverse polarity / inrush", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-05", "from": "TPS2663", "to": "TPS62933", "type": "POWER", "band": "", "fn": "Digital branch -> 3.3 V buck", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-06", "from": "TPS62933", "to": "STM32G474RE", "type": "POWER", "band": "", "fn": "3.3 V to MCU", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-07", "from": "TPS62933", "to": "J_SENS_CEL", "type": "POWER", "band": "", "fn": "3.3 V to sensor interface / sensors", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-08", "from": "TPS2663", "to": "J_INPUT_PA", "type": "POWER", "band": "", "fn": "PA branch", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-09", "from": "J_INPUT_PA", "to": "J_PAPWR_IN", "type": "POWER", "band": "", "fn": "Protected bus -> PA power PCB", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_PA_FEED, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PWR-10", "from": "J_PAPWR_IN", "to": "LOAD_SWITCH_PA", "type": "POWER", "band": "", "fn": "PA load switch (upstream of boost)", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-11", "from": "LOAD_SWITCH_PA", "to": "L_BOOST", "type": "POWER", "band": "", "fn": "Boost input", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-12", "from": "L_BOOST", "to": "LM5157", "type": "POWER", "band": "", "fn": "Boost switch node", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-13", "from": "LM5157", "to": "EEUFR1H102", "type": "POWER", "band": "", "fn": "30 V output -> reservoir", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-14", "from": "EEUFR1H102", "to": "J_PAPWR_RAIL", "type": "POWER", "band": "", "fn": "30 V PA RAIL", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-15", "from": "J_PAPWR_RAIL", "to": "J_ANALOG_RAIL", "type": "POWER", "band": "", "fn": "30 V PA RAIL up to analog/PA PCB", "phys": "PHYSICAL ROUTE (placeholder cable ROUTE_RAIL_30V, TBD - not fabricated)", "status": "PROPOSED"}, {"id": "PWR-16", "from": "J_ANALOG_RAIL", "to": "SHUNT", "type": "POWER", "band": "", "fn": "30 V rail via current shunt", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-17", "from": "SHUNT", "to": "THS3491_L1", "type": "POWER", "band": "L", "fn": "30 V PA RAIL -> THS3491 L1", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-18", "from": "SHUNT", "to": "THS3491_L2", "type": "POWER", "band": "L", "fn": "30 V PA RAIL -> THS3491 L2", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-19", "from": "SHUNT", "to": "THS3491_H1", "type": "POWER", "band": "H", "fn": "30 V PA RAIL -> THS3491 H1", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "PWR-20", "from": "SHUNT", "to": "THS3491_H2", "type": "POWER", "band": "H", "fn": "30 V PA RAIL -> THS3491 H2", "phys": "ARCHITECTURAL", "status": "PROPOSED"}, {"id": "AC-L01", "from": "PZT_L_120k", "to": "WATER", "type": "ACOUSTIC", "band": "L", "fn": "Band L acoustic output (-Z), ~120 kHz class - not acoustically characterised", "phys": "ARCHITECTURAL (acoustic output to water)", "status": "PROPOSED"}, {"id": "AC-H01", "from": "PZT_H_500k", "to": "WATER", "type": "ACOUSTIC", "band": "H", "fn": "Band H acoustic output (-Z), 500 kHz class - not acoustically characterised", "phys": "ARCHITECTURAL (acoustic output to water)", "status": "PROPOSED"}]</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { ViewHelper } from "three/addons/helpers/ViewHelper.js";
+
+const GLB = "SIH26058_COMPLETE_AUV_r06.glb";
+const REG = JSON.parse(document.getElementById("register").textContent);   // SIH26058_CONNECTIVITY_REGISTER_r03.csv
+const $ = id => document.getElementById(id);
+const canvas = $("view"), stage = $("stage");
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---------- renderer, lighting
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.localClippingEnabled = true;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.autoUpdate = false;                 // shadows re-rendered only when the scene changes
+renderer.autoClear = false;                            // scene + orientation gizmo share one frame
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(32, 1, 0.005, 60);
+const controls = new OrbitControls(camera, canvas);
+// Sketchfab / Autodesk-style navigation: left-drag orbit, right-drag pan, wheel zoom (towards the cursor),
+// one-finger orbit and two-finger pan / pinch on touch.
+controls.enableRotate = true;
+controls.enableZoom = true;
+controls.enablePan = true;
+controls.enableDamping = true;
+controls.dampingFactor = 0.085;
+controls.rotateSpeed = 0.85;
+controls.zoomSpeed = 1.0;
+controls.panSpeed = 0.9;
+controls.screenSpacePanning = true;
+controls.zoomToCursor = true;
+controls.minDistance = 0.02;
+controls.maxDistance = 6;
+controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+scene.add(new THREE.HemisphereLight(0xdfe8f2, 0x2a3038, 0.55));
+const key = new THREE.DirectionalLight(0xffffff, 1.5);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.bias = -0.0004;
+key.shadow.normalBias = 0.002;
+scene.add(key, key.target);
+const rim = new THREE.DirectionalLight(0xcfe0ff, 0.5); rim.position.set(2, -0.6, -2); scene.add(rim);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(8, 8), new THREE.ShadowMaterial({ opacity: 0.22 }));
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;                              // hidden or not laid out yet: keep the last valid aspect
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  fitCaption();
+}
+function fitCaption() {                              // keep the mode caption clear of the evidence tags (top-right)
+  const t = $("tags");
+  stage.style.setProperty("--tags-w", t && t.offsetWidth ? t.offsetWidth + 16 + "px" : "0px");
+}
+new ResizeObserver(resize).observe(stage);
+resize();
+
+const GLB_BYTES = 15859640;                      // r06 GLB size: progress estimate when the server sends no length
+function loadProgress(got, total) {
+  const bar = $("loadBar"), el = $("status");
+  if (!bar || !el) return;
+  bar.style.transform = `scaleX(${Math.min(got / total, 1)})`;
+  el.textContent = `Streaming the CAD model · ${(got / 1e6).toFixed(1)} / ${(Math.max(got, total) / 1e6).toFixed(1)} MB`;
+}
+async function loadBuffer() {
+  try {
+    const r = await fetch(GLB);
+    if (!r.ok) throw new Error(r.status);
+    if (!r.body) return await r.arrayBuffer();
+    const total = +r.headers.get("content-length") || GLB_BYTES, reader = r.body.getReader(), parts = [];
+    let got = 0;
+    for (;;) {                                   // stream the model so the loading bar shows real progress
+      const { done, value } = await reader.read();
+      if (done) break;
+      parts.push(value); got += value.length;
+      loadProgress(got, total);
+    }
+    const u8 = new Uint8Array(got);
+    let at = 0;
+    for (const p of parts) { u8.set(p, at); at += p.length; }
+    return u8.buffer;
+  } catch (e) {                                  // hosted page or opened from disk: use the embedded copy
+    setStatus("Loading the embedded model copy");
+    await new Promise((res, rej) => { const s = document.createElement("script"); s.src = "model_data.js";
+      s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    const bin = atob(window.SIH_GLB_B64);
+    const u8 = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    return u8.buffer;
+  }
+}
+
+// ---------- presentation vocabulary (names match CAD groups / objects; roles from the component register)
+const COL = { L: "#ff8a1f", H: "#b25be8", common: "#ffe066", power: "#ef5a5f", sens: "#3fb563", data: "#8fb0d0",
+              digital: "#6fc6ff", housing: "#3f74c4", elec: "#1fb8c8", pod: "#a9c3e6", hull: "#e0b43a" };
+const SUB = {
+  housing: { name: "B300 HOUSING", group: "B300_HOUSING", col: COL.housing },
+  sens:    { name: "ENVIRONMENTAL SENSORS", group: "SENSORS", col: COL.sens },
+  elec:    { name: "ELECTRONICS / POWER", group: "ELECTRONICS", col: COL.elec },
+  func:    { name: "STM32 FUNCTIONAL BLOCKS", group: "STM32_FUNCTIONS", col: COL.digital },
+  pod:     { name: "ACOUSTIC POD", group: "ACOUSTIC_POD", col: COL.pod },
+  pztL:    { name: "BAND L · ~120 kHz CLASS PROJECTOR", group: "PZT_120k", col: "#ff8000" },
+  pztH:    { name: "BAND H · 500 kHz CLASS PROJECTOR", group: "PZT_500k", col: "#9926cc" },
+  conn:    { name: "ARCHITECTURAL CONNECTIONS", group: "CONNECTIONS", col: "#c9d3dd" },
+};
+const PAY_ORDER = ["housing", "sens", "elec", "func", "pod", "pztL", "pztH", "conn"];
+const AUV = {
+  hull:    { name: "AUV HULL", note: "hull, nose, payload bay, mounting", col: COL.hull },
+  payload: { name: "TRANSMITTER PAYLOAD", note: "B300 payload", col: COL.housing },
+  window:  { name: "ACOUSTIC WINDOW", note: "projector interface", col: "#8a8f96" },
+  rear:    { name: "REAR PROPULSION", note: "tail cone, fins, thrusters", col: "#7d848c" },
+};
+// Major components. role = component register "Electrical role" / connectivity register function, not new claims.
+const MAJOR = {
+  STM32G474RE: { t: "STM32G474", c: COL.digital, p: 1, role: "Digital controller: adaptation, DDS / DMA waveform generation, one DAC (DAC3) for both bands, PD_L / PD_H band enable, ADC, I2C" },
+  P3B_ADAPTATION_ENGINE: { t: "ADAPTATION ENGINE", c: COL.digital, f: 1, role: "Firmware on STM32G474 (proposed software) - selects band (L / H), f0, bandwidth, pulse, PRI, drive level, waveform. Not a physical chip." },
+  P3B_WAVEFORM_GEN: { t: "WAVEFORM GENERATOR", c: COL.digital, f: 1, role: "Firmware on STM32G474: DDS phase accumulator + 4096-point sine table -> RAM buffer -> TIM + DMA -> DAC3. Not a physical chip." },
+  P3B_DAC3: { t: "DAC3", c: COL.common, f: 1, role: "Internal STM32G474 12-bit DAC: the single DAC for both bands, output via the internal OPAMP follower. Not a separate chip." },
+  OPA2356: { t: "OPA2356", c: COL.common, role: "Dual op-amp: buffers the DAC and drives the common 4th-order reconstruction filter (both bands)" },
+  RECON_FILTER: { t: "4th-ORDER FILTER", c: COL.common, role: "Common 4th-order Butterworth reconstruction filter, ~600 kHz cut-off (Sallen-Key): feeds TP1 and both band paths (values CALC, parts TBD)" },
+  TP1: { t: "TP1", c: COL.common, p: 1, role: "Test point at the common filter output (oscilloscope / FFT). Feeds the Band L and Band H PAs; only the selected band is enabled for each ping." },
+  THS3491_L1: { t: "THS3491 L1", c: COL.L, p: 1, role: "Band L power amplifier, BTL + leg (enabled only for Band L pings)" },
+  THS3491_L2: { t: "THS3491 L2", c: COL.L, p: 1, role: "Band L power amplifier, BTL - leg (inverting)" },
+  THS3491_H1: { t: "THS3491 H1", c: COL.H, p: 1, role: "Band H power amplifier, BTL + leg (enabled only for Band H pings)" },
+  THS3491_H2: { t: "THS3491 H2", c: COL.H, p: 1, role: "Band H power amplifier, BTL - leg (inverting)" },
+  PCB_MATCH_L: { t: "MATCH L", c: COL.L, p: 1, role: "BAND L MATCHING NETWORK: shunt tuning L + impedance transform. Initial values to be calculated from the selected ~120 kHz-class PZT's C0 / impedance - TO BE TUNED FROM IMPEDANCE MEASUREMENT" },
+  PCB_MATCH_H: { t: "MATCH H", c: COL.H, p: 1, role: "500 kHz MATCHING NETWORK: shunt tuning L (initial calculated target ~27 µH) + impedance transform - TO BE TUNED FROM IMPEDANCE MEASUREMENT" },
+  PZT_L_120k: { t: "BAND L · ~120 kHz PZT", c: COL.L, p: 1, role: "BAND L – ~120 kHz CLASS PZT (PROPOSED / CANDIDATE). No part selected yet: the CAD shows a placeholder envelope until the selected part's datasheet dimensions are used. Not acoustically tested." },
+  PZT_H_500k: { t: "BAND H · 500 kHz PZT", c: COL.H, p: 1, role: "BAND H – 500 kHz CLASS PZT (PROPOSED / CANDIDATE until the exact part is locked; e.g. STEMINC SMD32T4S411, 500 kHz ±10 kHz per MFR). Not acoustically tested." },
+  TPS2663: { t: "TPS2663", c: COL.power, role: "eFuse / reverse polarity / inrush protection on the AUV bus input" },
+  TPS62933: { t: "TPS62933", c: COL.power, role: "3.3 V buck: logic rail for the STM32G474 and sensors" },
+  LM5157: { t: "LM5157", c: COL.power, role: "Boost converter generating the 30 V PA rail" },
+  EEUFR1H102: { t: "1000 µF RESERVOIR", c: COL.power, role: "Panasonic EEUFR1H102 1000 µF / 50 V reservoir on the 30 V PA rail" },
+  INA241A: { t: "INA241A", c: COL.sens, role: "30 V PA-rail current-sense amplifier to STM32 ADC" },
+  BAR30: { t: "BAR30", c: COL.sens, role: "Depth / pressure sensing (MS5837-30BA, I2C)" },
+  CELSIUS: { t: "CELSIUS", c: COL.sens, role: "Water temperature sensing (TSYS01, I2C)" },
+};
+const EXTRA_ROLE = {
+  LOAD_SWITCH_PA: "PA-branch load switch, slew-limited, upstream of the boost (part TBD)",
+  L_TUNE_L: "Band L shunt tuning inductor (C0 cancellation): initial value from the selected PZT's C0, L = 1 / (ω0² · C0) - TO BE TUNED FROM IMPEDANCE MEASUREMENT",
+  L_TUNE_H: "500 kHz shunt tuning inductor (C0 cancellation): initial calculated target ~27 µH - TO BE TUNED FROM IMPEDANCE MEASUREMENT",
+  XFMR_L: "Band L impedance-transform element (TBD)", XFMR_H: "Band H impedance-transform element (TBD)",
+  L_BOOST: "Boost inductor for LM5157 (TBD)", SHUNT: "Current-sense shunt for INA241A (TBD)", FUSE: "Series fuse (TBD)", TVS: "TVS transient clamp (TBD)",
+  VSENSE_L: "Band L PZT terminal voltage divider to STM32 ADC", VSENSE_H: "Band H PZT terminal voltage divider to STM32 ADC",
+  SOS_LEAK_BOARD: "Leak sensor board: digital high on leak to STM32 GPIO", PEN_PWR_DATA: "AUV power / data WetLink penetrator (host ICD TBD)",
+};
+const COMP_LABELS = ["STM32G474RE", "P3B_ADAPTATION_ENGINE", "P3B_WAVEFORM_GEN", "P3B_DAC3", "OPA2356", "RECON_FILTER", "TP1",
+  "THS3491_L1", "THS3491_L2", "THS3491_H1", "THS3491_H2", "PCB_MATCH_L", "PCB_MATCH_H", "PZT_L_120k",
+  "PZT_H_500k", "TPS2663", "TPS62933", "LM5157", "EEUFR1H102", "INA241A", "BAR30", "CELSIUS"];
+
+// chains shown in the side panel (each step lists its register rows)
+// common chain: one DAC, one OPA2356, one 4th-order filter, TP1 - then only the selected band's PA is enabled
+const COMMON = [["STM32G474", ["STM32G474RE"], "FW-01"], ["ADAPTATION ENGINE · firmware", ["P3B_ADAPTATION_ENGINE"], "FW-01 · FW-02", 1],
+  ["WAVEFORM GENERATOR · firmware", ["P3B_WAVEFORM_GEN"], "FW-02 · FW-03", 1],
+  ["DAC3 · single DAC, both bands", ["P3B_DAC3"], "FW-03 · SIG-01", 1, COL.common],
+  ["OPA2356 · DAC buffer / filter driver", ["OPA2356", "J_DIG_ANALOG", "J_ANALOG_DAC_CTRL", "ROUTE_DAC_CTRL"], "SIG-02 · SIG-03", 0, COL.common],
+  ["4th-ORDER FILTER · common, ~600 kHz", ["RECON_FILTER"], "SIG-04", 0, COL.common],
+  ["TP1 · common test point (scope / FFT)", ["TP1"], "SIG-05", 0, COL.common]];
+const CHAIN = {
+  pathL: { h: "BAND L – ~120 kHz PATH", c: COL.L, why: "Common chain (DAC3 → OPA2356 → 4th-order filter → TP1) plus the Band L register rows. Only the selected band's PA is enabled for each ping.",
+    steps: [...COMMON, ["br", "Band L · ~120 kHz class"],
+      ["THS3491 L1 / L2 · Band L PA (BTL)", ["THS3491_L1", "THS3491_L2"], "SIG-L06 · SIG-L07 · CTRL-01"],
+      ["BTL OUTPUT L", ["J_ANALOG_OUT_L", "ROUTE_PA_MATCH_L"], "PA-L01 · PA-L02 · PA-L03"],
+      ["MATCH L · Band L matching network", ["PCB_MATCH_L", "J_MATCH_L_PA", "XFMR_L", "L_TUNE_L", "J_MATCH_L_PZT"], "PA-L04 · PA-L05 · PA-L06"],
+      ["BAND L PZT · ~120 kHz class", ["PZT_L_120k", "ROUTE_DRY_L_PZT", "PEN_AC_L", "ROUTE_WET_L"], "PA-L07 · PA-L08"],
+      ["WATER · acoustic output", ["P3B_AC_L"], "AC-L01"]] },
+  pathH: { h: "500 kHz PATH · BAND H", c: COL.H, why: "Common chain (DAC3 → OPA2356 → 4th-order filter → TP1) plus the Band H register rows; Band H links are dashed in the CAD. Only the selected band's PA is enabled for each ping.",
+    steps: [...COMMON, ["br", "Band H · 500 kHz class"],
+      ["THS3491 H1 / H2 · Band H PA (BTL)", ["THS3491_H1", "THS3491_H2"], "SIG-H06 · SIG-H07 · CTRL-02"],
+      ["BTL OUTPUT H", ["J_ANALOG_OUT_H", "ROUTE_PA_MATCH_H"], "PA-H01 · PA-H02 · PA-H03"],
+      ["MATCH H · 500 kHz matching network", ["PCB_MATCH_H", "J_MATCH_H_PA", "XFMR_H", "L_TUNE_H", "J_MATCH_H_PZT"], "PA-H04 · PA-H05 · PA-H06"],
+      ["BAND H PZT · 500 kHz class", ["PZT_H_500k", "ROUTE_DRY_H_PZT", "PEN_AC_H", "ROUTE_WET_H"], "PA-H07 · PA-H08"],
+      ["WATER · acoustic output", ["P3B_AC_H"], "AC-H01"]] },
+  power: { h: "POWER ARCHITECTURE — PROPOSED", c: COL.power, why: "Register rows of type POWER (PWR-01 to PWR-20). No measured power performance is claimed.",
+    steps: [["br", "AUV bus input"], ["AUV BUS", ["PEN_PWR_DATA", "ROUTE_AUV_PWR", "J_INPUT_BUS"], "PWR-01"], ["FUSE / TVS · parts TBD", ["FUSE", "TVS"], "PWR-02 · PWR-03"],
+      ["TPS2663 · eFuse", ["TPS2663"], "PWR-04"], ["br", "3.3 V logic branch"], ["TPS62933 · 3.3 V buck", ["TPS62933"], "PWR-05"],
+      ["STM32G474 / SENSORS", ["STM32G474RE", "J_SENS_CEL"], "PWR-06 · PWR-07"], ["br", "PA power branch"],
+      ["PA LOAD SWITCH · upstream of boost", ["J_INPUT_PA", "ROUTE_PA_FEED", "J_PAPWR_IN", "LOAD_SWITCH_PA"], "PWR-08 · PWR-09 · PWR-10"],
+      ["LM5157 · boost", ["L_BOOST", "LM5157"], "PWR-11 · PWR-12"], ["1000 µF RESERVOIR", ["EEUFR1H102", "PKG_EEUFR1H102_CAN"], "PWR-13"],
+      ["30 V PA RAIL", ["J_PAPWR_RAIL", "ROUTE_RAIL_30V", "J_ANALOG_RAIL", "SHUNT"], "PWR-14 · PWR-15 · PWR-16"],
+      ["THS3491 × 4 · Band L + Band H PAs", ["THS3491_L1", "THS3491_L2", "THS3491_H1", "THS3491_H2"], "PWR-17 · PWR-18 · PWR-19 · PWR-20"]] },
+  sensing: { h: "SENSING → STM32G474", c: COL.sens, why: "Register rows of type SENSING, plus the AUV host data link, which carries host-provided parameters and is not a sensor.",
+    steps: [["br", "Physical sensors in the payload"], ["BAR30 · depth / pressure", ["BAR30", "ROUTE_BAR30_I2C", "CONN_BAR30", "J_SENS_BAR30"], "SENS-01 · SENS-06"],
+      ["CELSIUS · water temperature", ["CELSIUS", "ROUTE_CELSIUS_I2C", "CONN_CELSIUS", "J_SENS_CEL"], "SENS-02 · SENS-06"],
+      ["SOS LEAK SENSOR", ["SOS_LEAK_BOARD", "SOS_PROBE_FWD", "SOS_PROBE_AFT", "ROUTE_SOS_FWD", "ROUTE_SOS_AFT", "J_SENS_SOS"], "SENS-03 · SENS-04 · SENS-05 · SENS-07"],
+      ["INA241A · PA-rail current", ["INA241A"], "MON-01"], ["V-SENSE L / H · PZT terminal voltage", ["VSENSE_L", "VSENSE_H"], "MON-02 · MON-03"],
+      ["STM32G474 · ADC / I2C / GPIO", ["STM32G474RE"], "SENS-06 · SENS-07 · MON-01…03"], ["br", "Host-provided parameters (not sensors)"],
+      ["AUV HOST DATA · mission parameters + environmental proxies", ["PEN_PWR_DATA", "ROUTE_AUV_DATA", "J_DIG_HOST"], "DATA-01 · DATA-02", 0, COL.data],
+      ["ADAPTATION ENGINE · firmware", ["P3B_ADAPTATION_ENGINE"], "FW-01", 1, COL.data]] },
+};
+
+const SHELL = ["TUBE", "FLANGE_FWD", "FLANGE_AFT", "CAP_FWD", "CAP_AFT"];
+const EXPLODE = { B300_HOUSING: 0.15, ELECTRONICS: 0, STM32_FUNCTIONS: 0, PCB_COMPONENT_LAYOUT: 0, SENSORS: -0.075,
+                  ACOUSTIC_POD: -0.12, PZT_120k: -0.155, PZT_500k: -0.155 };
+const CLIP = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0);   // cutaway removes the camera-side (+Z) half
+const CONN_COL = t => t;
+
+const S = { isolate: null, selName: null, root: null, groups: {}, meshes: [], byName: {}, mode: "complete", explode: 0, hidden: new Set(), flyId: 0,
+            modeView: {}, modeFill: null, limitBox: null, viewPending: false, recoverTries: 0,
+            selSet: new Set(), hot: null, hotSet: new Set(), labels: [], frameBox: null, homeBox: {}, path: null };
+
+// ---------- setup
+function setStatus(msg, err) {                     // loading overlay: message, error state, fade out once ready
+  const el = $("load"); if (!el) return;
+  if (!msg) { el.classList.add("done"); setTimeout(() => el.remove(), reduced ? 0 : 650); return; }
+  $("status").textContent = msg; el.classList.toggle("err", !!err);
+}
+function setup(gltf) {
+  try { setupModel(gltf); }
+  catch (e) { console.error(e); setStatus("The 3D model could not be prepared: " + e.message, true); }
+}
+function setupModel(gltf) {
+  const root = gltf.scene;
+  S.root = root;
+  scene.add(root);
+  root.traverse(o => {
+    if (o.isMesh) {
+      o.geometry.computeVertexNormals();   // exporter writes one vertex set per CAD face: smooth inside a face, sharp between faces
+      if (o.name === "NOSE") ellipsoidNormals(o.geometry);
+      const m = o.material.clone();
+      m.flatShading = false;                          // the loader sets flat shading because the GLB carries no normals
+      m.color.convertSRGBToLinear();
+      m.side = THREE.DoubleSide;
+      m.envMapIntensity = 0.7;
+      o.material = m;
+      classify(o);
+      style(o);
+      o.material.userData.baseOpacity = o.material.opacity;     // style() may have replaced the material
+      o.material.userData.baseColor = o.material.color.clone();
+      S.meshes.push(o);
+      S.byName[o.name] = o;
+    } else if (o.name) {
+      S.groups[o.name] = o;
+      o.userData.home = o.position.clone();
+    }
+  });
+  for (const k of PAY_ORDER) if (S.groups[SUB[k].group]) S.homeBox[k] = new THREE.Box3().setFromObject(S.groups[SUB[k].group]);
+  for (const n of ["TUBE", "CAP_FWD", "CAP_AFT"]) {
+    const o = S.byName[n]; if (!o) continue;
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 32),
+      new THREE.LineBasicMaterial({ color: 0x8fb4ea, transparent: true, opacity: 0.55, depthWrite: false }));
+    e.raycast = () => {};
+    o.add(e); o.userData.edges = e;
+  }
+  for (const n of ["P3B_ADAPTATION_ENGINE", "P3B_WAVEFORM_GEN"]) {   // outline the firmware panels
+    const o = S.byName[n]; if (!o) continue;
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 30),
+      new THREE.LineBasicMaterial({ color: 0x9fdcff, transparent: true, opacity: 0.9 }));
+    e.raycast = () => {};
+    o.add(e);
+  }
+  buildTrees();
+  buildCadList();
+  setStatus(null);
+  const [h0, part] = location.hash.slice(1).split(":"), h = { pathA: "pathL", pathB: "pathH" }[h0] || h0;   // deep link: #view or #view:PART
+  setMode(MODE[h] ? h : "complete", true);
+  buildDiagram();
+  if (part && S.byName[part]) goToMesh(S.byName[part]); else offerTour();
+}
+
+// The r01 nose is a half-ellipsoid (length 200 mm, diameter 180 mm, base at X 200 mm): exact shading normals.
+function ellipsoidNormals(g) {
+  const p = g.attributes.position.array, n = g.attributes.normal.array, a2 = 0.2 * 0.2, b2 = 0.09 * 0.09;
+  for (let i = 0; i < p.length; i += 3) {
+    const x = p[i] - 0.2, y = p[i + 1], z = p[i + 2];
+    if (Math.abs(x * x / a2 + (y * y + z * z) / b2 - 1) > 0.004) continue;
+    const nx = x / a2, ny = y / b2, nz = z / b2, L = Math.hypot(nx, ny, nz);
+    n[i] = nx / L; n[i + 1] = ny / L; n[i + 2] = nz / L;
+  }
+  g.attributes.normal.needsUpdate = true;
+}
+
+function chain(o) { const c = []; let p = o.parent; while (p) { if (p.name) c.push(p.name); p = p.parent; } return c; }
+function classify(o) {
+  const c = chain(o), u = o.userData;
+  u.sub = null; u.role = null;
+  if (c.includes("PCB_COMPONENT_LAYOUT")) u.sub = "elec";
+  else for (const k of PAY_ORDER) if (c.includes(SUB[k].group)) u.sub = k;
+  if (u.sub) {
+    u.row = "payload";
+    u.role = u.sub === "housing" && SHELL.includes(o.name) ? "shell" : u.sub;
+    if (u.sub === "elec") u.el = /^PCB_/.test(o.name) ? "pcb" : /^CHASSIS_/.test(o.name) ? "chassis" :
+      /^P3B_(ZONE|TP)_/.test(o.name) ? "zone" : /^P3B_(RIM|MH)_/.test(o.name) ? "rim" : /^PKG_/.test(o.name) ? "pkg" : "part";
+    return;
+  }
+  if (c.includes("AUV_HULL")) { u.row = o.name === "ACOUSTIC_WINDOW_FRAME" ? "window" : "hull"; u.role = u.row === "window" ? "window" : "hullMid"; }
+  else if (c.includes("NOSE_SECTION")) { u.row = "hull"; u.role = "nose"; }
+  else if (c.includes("PAYLOAD_BAY")) { u.row = "hull"; u.role = /BULKHEAD_(FWD|AFT)$/.test(o.name) ? "bayWall" : "bayHw"; }
+  else if (c.includes("PAYLOAD_MOUNTING")) { u.row = "hull"; u.role = "mount"; }
+  else if (c.includes("REAR_PROPULSION")) { u.row = "rear"; u.role = o.name === "TAIL_CONE" || /JOINT_RING|TAIL_CAP/.test(o.name) ? "tail" : /^STABILISER/.test(o.name) ? "fin" : "prop"; }
+}
+function connColor(u) {
+  const t = u.ConnType, b = u.Band;
+  if (t === "POWER") return COL.power;
+  if (t === "SENSING") return COL.sens;
+  if (t === "DATA") return b === "L" ? COL.L : b === "H" ? COL.H : COL.data;
+  if (t === "ACOUSTIC" || t === "PA" || t === "ANALOG") return b === "H" ? COL.H : b === "L" ? COL.L : COL.common;   // L+H = common chain
+  return "#c9d3dd";
+}
+// Realistic finishes (PBR): hull, nose and tail cone in two-pack safety-yellow paint with a clear coat, B300 in anodised
+// aluminium, composite fins, black polymer thrusters, anodised clamp rings, FR-4 boards in green-teal solder mask.
+// Payload detail parts (r06) carry their finish in the CAD extras ("Finish").
+function paint(o, hex, rough = 0.4, coat = 1) {
+  const old = o.material;
+  o.material = new THREE.MeshPhysicalMaterial({ color: hex, metalness: 0, roughness: rough, clearcoat: coat, clearcoatRoughness: 0.06,
+    side: THREE.DoubleSide, envMapIntensity: 1, transparent: old.transparent, opacity: old.opacity });
+  old.dispose();
+}
+const FINISH = {
+  pcb_teal: { c: 0x14968c, metal: 0, rough: 0.36 },
+  nylon: { c: 0xe8e1cf, metal: 0, rough: 0.55 },                 // connector housings
+  gold: { c: 0xd9b05b, metal: 1, rough: 0.28 },                  // connector pins
+  copper: { c: 0xb8692f, metal: 1, rough: 0.3, coat: 0.5 },      // enamelled windings
+  ferrite: { c: 0x3b3e43, metal: 0.1, rough: 0.55 },
+  sleeve_black: { c: 0x15171a, metal: 0, rough: 0.4, coat: 0.3 },
+  stripe_grey: { c: 0x9aa1aa, metal: 0, rough: 0.45 },
+  sachet: { c: 0xe9ecef, metal: 0, rough: 0.75 },
+  nickel: { c: 0xbfc4c9, metal: 0.9, rough: 0.3 },
+  tin: { c: 0xc9ced4, metal: 0.85, rough: 0.3 },
+  mlcc: { c: 0x9a7b5c, metal: 0, rough: 0.5 },
+  resistor: { c: 0x17191c, metal: 0, rough: 0.45 },
+  silver: { c: 0xd8dade, metal: 1, rough: 0.25 },
+  stainless: { c: 0xd2d6da, metal: 1, rough: 0.22 },
+  black_polymer: { c: 0x16181b, metal: 0, rough: 0.6 },
+  aluminium: { c: 0xb7bfc8, metal: 0.95, rough: 0.3 },
+};
+function finish(o, k) {
+  const F = FINISH[k], old = o.material;
+  o.material = new (F.coat ? THREE.MeshPhysicalMaterial : THREE.MeshStandardMaterial)({ color: F.c, metalness: F.metal, roughness: F.rough,
+    side: THREE.DoubleSide, envMapIntensity: 1, transparent: old.transparent, opacity: old.opacity });
+  if (F.coat) { o.material.clearcoat = F.coat; o.material.clearcoatRoughness = 0.05; }
+  old.dispose();
+}
+function style(o) {
+  const m = o.material, n = o.name, u = o.userData;
+  const set = (hex, metal, rough) => { m.color.set(hex); if (metal != null) m.metalness = metal; if (rough != null) m.roughness = rough; };
+  if (FINISH[u.Finish]) { finish(o, u.Finish); return; }
+  if (["hullMid", "nose", "tail", "bayWall"].includes(u.role) && !/JOINT_RING|TAIL_CAP/.test(n)) { paint(o, 0xf0b324); return; }
+  if (u.role === "fin") set(0x1c1e22, 0, 0.48);
+  if (/JOINT_RING$/.test(n)) { set(0x4a5059, 0.85, 0.34); m.envMapIntensity = 1; }
+  if (n === "TAIL_CAP") set(0x26292e, 0.1, 0.55);
+  if (u.role === "prop") set(/_MOTOR$/.test(n) ? 0x1b1d21 : 0x131417, /_MOTOR$/.test(n) ? 0.5 : 0, /_PROPELLER$/.test(n) ? 0.3 : 0.5);
+  if (u.role === "mount") { set(0x3b4048, 0.8, 0.4); m.envMapIntensity = 1; }
+  if (u.role === "shell") { set(n === "TUBE" ? 0x3569bd : n.startsWith("FLANGE") ? 0x2d5ca8 : 0x264d8e, 0.8, 0.3); m.envMapIntensity = 1; }
+  if (/^PCB_/.test(n)) set(0x14968c, 0, 0.36);
+  if (/^P3B_RIM_/.test(n)) set(0x0d7f8b, 0.05, 0.5);
+  if (/^(THS3491|OPA2356|INA241A|LM5157|STM32G474RE|TPS62933|TPS2663|LOAD_SWITCH)/.test(n)) set(0x111317, 0.05, 0.6);
+  if (n === "CHASSIS_SPINE" || /^CHASSIS_BULKHEAD/.test(n)) set(0xa8b0b9, 0.9, 0.32);
+  if (n === "THERMAL_SPREADER" || n === "TIM_WALL") { m.opacity = 0.3; m.transparent = true; }
+  if (n === "BAR30") set(0x3fb563, 0.3, 0.45);
+  if (n === "CELSIUS") set(0x2f9a52, 0.3, 0.45);
+  if (n === "SOS_LEAK_BOARD") set(0x3fb563, 0.05, 0.5);
+  if (/_LEADS$/.test(n)) set(0xc9ced4, 0.85, 0.3);
+  if (/_PIN1$/.test(n)) set(0xf2f4f6, 0, 0.6);
+  if (n === "TP1") set(0xffe066, 0.35, 0.35);
+  if (n === "PKG_EEUFR1H102_CAN") set(0x1d2c6e, 0.2, 0.45);
+  if (n === "EEUFR1H102") { m.opacity = 0.12; m.transparent = true; }        // verified envelope, can drawn inside
+  if (u.sub === "func") {
+    if (/DAC3/.test(n)) set(COL.common, 0, 0.5);
+    else { set(0x6fc6ff, 0, 0.6); m.opacity = 0.22; m.transparent = true; }
+    m.emissive.set(0x0a2a3a);
+  }
+  if (u.sub === "conn") {                                                     // architectural links: unlit, typed colours
+    const c = new THREE.Color(connColor(u)).convertSRGBToLinear();
+    o.material = new THREE.MeshBasicMaterial({ color: c, transparent: u.ConnType === "ACOUSTIC", opacity: u.ConnType === "ACOUSTIC" ? 0.7 : 1,
+                                              side: THREE.DoubleSide, toneMapped: false });
+    o.material.userData.baseColor = c.clone();
+  }
+}
+
+// ---------- modes
+const TAG_PCB = "PCB COMPONENT LAYOUT — PRESENTATION MODEL — NOT FABRICATED";
+const TAG_CONN = "ARCHITECTURAL CONNECTIONS — NOT PCB ROUTING";
+const TOP = [-0.10, 0.80, 0.59];
+const MODE = {
+  complete: { t: "COMPLETE AUV", s: "Hull midbody shown translucent for presentation, revealing the B300 transmitter payload.",
+              hull: 20, pay: 100, dir: [-0.62, 0.40, 0.68], fill: [0.88, 0.8], labels: "top", tags: [] },
+  payload:  { t: "TRANSMITTER PAYLOAD", s: "B300 housing shown transparent; PCB component layout and major components labelled. Hover any part.",
+              hull: 0, pay: 14, dir: [-0.16, 0.74, 0.65], fill: [0.9, 0.52], rows: 1, labels: "comp", tags: [TAG_PCB] },
+  cutaway:  { t: "CUTAWAY", s: "Hull and B300 tube sectioned at the vehicle centreline to expose the transmitter and both projectors: Band L (~120 kHz class) and Band H (500 kHz class).",
+              hull: 100, pay: 100, clip: true, dir: [-0.40, 0.42, 0.81], fill: [0.9, 0.8], labels: "sub", tags: [] },
+  arch:     { t: "PAYLOAD ARCHITECTURE", s: `All ${REG.length} register connections on the presentation model, coloured by type. Boards shown translucent so both tiers read.`,
+              hull: 0, pay: 10, dir: TOP, fill: [0.92, 0.52], rows: 1, labels: "comp", tags: [TAG_PCB, TAG_CONN], conn: "all" },
+  pathL:    { t: "BAND L – ~120 kHz PATH", s: "Common DAC → OPA2356 → 4th-order filter → TP1, then the Band L PA, matching network and ~120 kHz-class projector. Only the selected band is enabled for each ping.",
+              hull: 0, pay: 10, dir: TOP, fill: [0.82, 0.56], rows: 1, labels: "path", tags: [TAG_CONN, TAG_PCB], conn: "pathL" },
+  pathH:    { t: "500 kHz PATH", s: "Common chain to TP1, then the Band H PA, matching network and 500 kHz-class projector (Band H links dashed in the CAD). Only the selected band is enabled for each ping.",
+              hull: 0, pay: 10, dir: TOP, fill: [0.82, 0.56], rows: 1, labels: "path", tags: [TAG_CONN, TAG_PCB], conn: "pathH" },
+  power:    { t: "POWER PATH", s: "AUV bus → protection → 3.3 V logic branch and 30 V PA branch.",
+              hull: 0, pay: 10, dir: TOP, fill: [0.82, 0.56], rows: 1, labels: "path", tags: ["POWER ARCHITECTURE — PROPOSED", TAG_CONN], conn: "power" },
+  sensing:  { t: "SENSING", s: "Physical sensors into the STM32G474 (green); host-provided parameters over the AUV data link (blue-grey).",
+              hull: 0, pay: 10, dir: TOP, fill: [0.82, 0.56], rows: 1, labels: "path", tags: [TAG_CONN, "HOST PARAMETERS ARE NOT SENSORS"], conn: "sensing" },
+  exploded: { t: "PAYLOAD EXPLODED", s: "Transmitter subsystems separated vertically; the Band L / Band H projectors and their matching networks are labelled. AUV and connections hidden.",
+              hull: 0, pay: 100, dir: [-0.34, 0.26, 0.90], fill: [0.6, 0.84], labels: "exploded", tags: [TAG_PCB] },
+};
+const SUB_LABELS = { top: [["payload", "top"]], sub: [["housing"], ["elec"], ["sens"], ["pod"], ["pztL"], ["pztH"]],
+  exploded: [["housing"], ["elec"], ["sens"], ["pod"], ["pztL"], ["matchL"], ["pztH"], ["matchH"]] };
+
+function rowsFor(k) {
+  if (k === "all") return REG;
+  if (k === "pathL" || k === "pathH") {                // the band's own rows plus the common chain (band L+H)
+    const b = k === "pathL" ? "L" : "H";
+    return REG.filter(r => ((r.band === b || r.band === "L+H") && r.type !== "POWER" && r.type !== "SENSING") || r.id === "FW-01" || r.id === "FW-02");
+  }
+  if (k === "power") return REG.filter(r => r.type === "POWER");
+  if (k === "sensing") return REG.filter(r => r.type === "SENSING" || ["DATA-01", "DATA-02", "FW-01"].includes(r.id));
+  return [];
+}
+const connName = id => "P3B_" + id.replace(/-/g, "_");
+function rowMeshes(r) {
+  const out = [];
+  const add = n => { const o = S.byName[n]; if (o) out.push(o); };
+  add(connName(r.id)); add("P3B_ARW_" + r.id.replace(/-/g, "_"));
+  if (r.id === "AC-L01") add("P3B_AC_L");
+  if (r.id === "AC-H01") add("P3B_AC_H");
+  const m = /ROUTE_[A-Z0-9_]+/.exec(r.phys || ""); if (m) add(m[0]);
+  return out;
+}
+function pathState(k) {                 // meshes to keep bright + connection meshes to show
+  if (!k) return null;
+  const rows = rowsFor(k), conn = new Set(), comp = new Set();
+  for (const r of rows) {
+    rowMeshes(r).forEach(o => (o.userData.sub === "conn" ? conn : comp).add(o));
+    for (const n of [r.from, r.to]) { const o = S.byName[n]; if (o) comp.add(o); }
+  }
+  if (CHAIN[k]) for (const st of CHAIN[k].steps) if (st[0] !== "br") st[1].forEach(n => S.byName[n] && comp.add(S.byName[n]));
+  for (const o of [...comp]) S.meshes.forEach(p => p.userData.Parent === o.name && comp.add(p));   // package leads, pin-1, can
+  if (comp.has(S.byName.EEUFR1H102)) comp.add(S.byName.PKG_EEUFR1H102_CAN);
+  return { k, rows, conn, comp };
+}
+
+function modeShows(u, mode) {
+  if (u.sub === "conn") return !!MODE[mode].conn;
+  if (u.sub === "func") return mode !== "complete";
+  if (u.row === "payload") {
+    if (u.el === "zone" && MODE[mode].conn) return false;            // functional zone tiles off while links are drawn
+    return true;
+  }
+  if (mode === "complete" || mode === "cutaway") return true;
+  if (mode === "payload") return u.role === "mount";
+  return false;
+}
+function apply() {
+  const mode = S.mode, M = MODE[mode], P = S.path;
+  const h = +$("hullOp").value / 100, p = +$("payOp").value / 100;
+  $("hullOpV").textContent = Math.round(h * 100) + " %";
+  $("payOpV").textContent = Math.round(p * 100) + " %";
+  $("hullOp").style.setProperty("--v", h * 100 + "%"); $("payOp").style.setProperty("--v", p * 100 + "%");   // slider track fill
+  for (const o of S.meshes) {
+    const u = o.userData, m = o.material;
+    let vis = modeShows(u, mode) && !S.hidden.has(u.row) && !(u.sub && S.hidden.has("sub:" + u.sub));
+    let a = m.userData.baseOpacity ?? 1;
+    u.glow = null;
+    if (u.role === "hullMid" || u.role === "bayWall") a = Math.min(a, h);
+    if (u.role === "shell") a = Math.min(a, p);
+    if (M.conn && u.row === "payload" && u.sub !== "conn") {           // architecture views: see-through tray
+      if (u.el === "pcb") a = Math.min(a, 0.5);
+      if (u.el === "chassis" || u.el === "rim") a = Math.min(a, 0.22);
+      if (o.name === "THERMAL_SPREADER" || o.name === "TIM_WALL") a = 0.12;
+    }
+    if (P && u.sub !== "conn" && u.role !== "shell") {
+      if (P.comp.has(o)) u.glow = P.k;
+      else if (u.row === "payload") a = Math.min(a, u.el === "pcb" ? 0.28 : 0.14);
+    }
+    if (P && u.sub === "conn") vis = vis && P.conn.has(o);
+    if (!P && M.conn !== "all" && u.sub === "conn") vis = false;
+    if (S.isolate) { vis = S.isolate.has(o); if (vis && u.sub !== "conn") a = m.userData.baseOpacity ?? 1; }   // isolate: the selection only
+    const clipped = M.clip && (["hullMid", "nose", "tail", "bayWall", "window"].includes(u.role) ||
+                               ["TUBE", "FLANGE_FWD", "FLANGE_AFT"].includes(o.name));
+    m.clippingPlanes = clipped ? [CLIP] : [];
+    if (u.sub === "conn") {
+      m.opacity = u.ConnType === "ACOUSTIC" ? 0.7 : 1; m.transparent = u.ConnType === "ACOUSTIC";
+    } else {
+      m.opacity = a;
+      m.transparent = a < 0.999;
+      m.depthWrite = a >= 0.999;
+    }
+    o.renderOrder = u.role === "shell" ? 2 : (u.role === "hullMid" || u.role === "bayWall") ? 3 : 0;
+    o.visible = vis && a > 0.01;
+    o.castShadow = o.visible && a > 0.9 && u.sub !== "conn";
+    o.receiveShadow = o.castShadow;                                   // self-shadowing between opaque parts
+    m.needsUpdate = true;
+    if (u.edges) { u.edges.visible = o.visible && a < 0.6; u.edges.material.clippingPlanes = m.clippingPlanes; }
+  }
+  refreshGlow(S.meshes);
+  renderer.shadowMap.needsUpdate = true;
+  document.querySelectorAll(".eye").forEach(b => b.setAttribute("aria-pressed", String(!S.hidden.has(b.dataset.key))));
+}
+
+// ---------- camera
+function tween(fn, ms = 800) {
+  if (reduced) { fn(1); return; }
+  const t0 = performance.now();
+  const step = t => { const k = Math.min((t - t0) / ms, 1); const go = fn(k < 1 ? 1 - Math.pow(1 - k, 3) : 1); if (k < 1 && go !== false) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function corners(b) {
+  const r = [];
+  for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) r.push(new THREE.Vector3(x, y, z));
+  return r;
+}
+function solveView(box, dirArr, fill) {        // fit the projected box to the requested share of the viewport
+  const dir = new THREE.Vector3(...dirArr).normalize();
+  const cam = camera.clone();
+  const tgt = box.getCenter(new THREE.Vector3());
+  let d = box.getSize(new THREE.Vector3()).length() * 1.6;
+  const pts = corners(box);
+  for (let i = 0; i < 8; i++) {
+    cam.position.copy(tgt).addScaledVector(dir, d);
+    cam.lookAt(tgt); cam.updateMatrixWorld();
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    for (const p of pts) { const q = p.clone().project(cam); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }
+    const vt = Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2) * d, ht = vt * cam.aspect;
+    const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
+    tgt.addScaledVector(right, (x0 + x1) / 2 * ht).addScaledVector(up, (y0 + y1) / 2 * vt);
+    d *= Math.max((x1 - x0) / 2 / fill[0], (y1 - y0) / 2 / fill[1]);
+  }
+  return { pos: tgt.clone().addScaledVector(dir, d), tgt };
+}
+function flyTo(v, instant) {
+  const id = ++S.flyId, p0 = camera.position.clone(), t0 = controls.target.clone();
+  if (instant) { camera.position.copy(v.pos); controls.target.copy(v.tgt); controls.update(); return; }
+  tween(k => {
+    if (id !== S.flyId) return false;                 // the user grabbed the model: stop animating
+    camera.position.lerpVectors(p0, v.pos, k); controls.target.lerpVectors(t0, v.tgt, k);
+    camera.lookAt(controls.target); camera.updateMatrixWorld();   // aim immediately (also when motion is reduced)
+  });
+}
+function currentDir() {
+  const d = camera.position.clone().sub(controls.target).normalize();
+  if (Math.abs(d.y) > 0.985) { d.x += 0.12; d.normalize(); }  // keep lookAt well defined straight above / below
+  return d.toArray();
+}
+function padBox(b, min = 0.04) {
+  const sz = b.getSize(new THREE.Vector3()), m = Math.max(sz.x, sz.y, sz.z);
+  if (m < min) b.expandByScalar((min - m) / 2);
+  return b;
+}
+function focusList(o) {
+  const u = o.userData;
+  if (u.sub === "housing") return meshesOf("housing");
+  const n = majorOf(o);
+  if (MAJOR[n] || u.Kind === "pcb_component") return meshesOf(n);
+  const th = chain(o).find(g => /^THRUSTER_\d$/.test(g));
+  if (th) return S.meshes.filter(m => chain(m).includes(th));
+  return [o];
+}
+function focusObject(o) {                            // double-click: select, orbit around it, frame it
+  selectMesh(o);
+  const list = focusList(o).filter(m => m.visible || m === o);
+  flyTo(solveView(padBox(boxOf(list)), currentDir(), [0.4, 0.45]));
+}
+function fitView() {
+  const sel = [...S.selSet].filter(o => o.visible);
+  if (sel.length) { flyTo(solveView(padBox(boxOf(sel)), currentDir(), [0.45, 0.55])); return; }
+  if (S.frameBox) flyTo(solveView(S.frameBox, currentDir(), S.modeFill || [0.8, 0.8]));
+}
+function resetView() { const v = S.modeView[S.mode]; if (v) flyTo(v); }
+function groupOffset(o, explode) {
+  for (const n of chain(o)) if (n in EXPLODE) return (EXPLODE[n] || 0) * explode - (S.groups[n].position.y - S.groups[n].userData.home.y);
+  return 0;
+}
+function boxOf(list, explode = S.explode) {
+  const b = new THREE.Box3();
+  for (const o of list) {
+    const bb = new THREE.Box3().setFromObject(o);
+    bb.translate(new THREE.Vector3(0, groupOffset(o, explode), 0));
+    b.union(bb);
+  }
+  return b;
+}
+function setExplode(target, instant) {
+  const from = S.explode;
+  const run = k => {
+    S.explode = from + (target - from) * k;
+    for (const [n, dy] of Object.entries(EXPLODE)) { const g = S.groups[n]; if (g) g.position.y = g.userData.home.y + dy * S.explode; }
+    renderer.shadowMap.needsUpdate = true;
+  };
+  instant ? run(1) : tween(run);
+}
+function placeShadow(box) {
+  ground.position.y = box.min.y - 0.012;
+  const c = box.getCenter(new THREE.Vector3()), r = box.getSize(new THREE.Vector3()).length() / 2 + 0.05;
+  key.target.position.copy(c);
+  key.position.copy(c).add(new THREE.Vector3(-0.35, 1.6, 0.55));
+  const sc = key.shadow.camera; sc.left = -r; sc.right = r; sc.top = r; sc.bottom = -r; sc.near = 0.1; sc.far = 4;
+  sc.updateProjectionMatrix();
+  renderer.shadowMap.needsUpdate = true;
+}
+function fitFill(f) { return stage.clientWidth < 560 ? [Math.min(0.92, f[0] + 0.3), f[1]] : f; }
+
+function setMode(mode, instant) {
+  S.mode = mode;
+  if (S.isolate) { S.isolate = null; $("iso").hidden = true; $("sIso").setAttribute("aria-pressed", "false"); }
+  $("sect").hidden = mode !== "cutaway";
+  const cap = $("caption"); cap.classList.remove("swap"); void cap.offsetWidth; cap.classList.add("swap");
+  const M = MODE[mode];
+  document.querySelectorAll("#modes button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+  const nav = $("modes"), tab = $("m-" + mode);       // keep the active tab in view when the tab strip scrolls (phones)
+  if (tab && nav.scrollWidth > nav.clientWidth)
+    nav.scrollLeft += tab.getBoundingClientRect().left - nav.getBoundingClientRect().left - (nav.clientWidth - tab.offsetWidth) / 2;
+  $("capT").textContent = M.t; $("capS").textContent = M.s;
+  $("caption").style.setProperty("--cap-c", CHAIN[M.conn] ? CHAIN[M.conn].c : "var(--accent)");
+  $("tags").innerHTML = M.tags.map(t => `<span>${t}</span>`).join("");
+  fitCaption();
+  $("hullOp").value = M.hull; $("payOp").value = M.pay;
+  $("hullOp").disabled = !["complete", "cutaway"].includes(mode);
+  S.path = M.conn && M.conn !== "all" ? pathState(M.conn) : null;
+  apply();
+  const ex = mode === "exploded" ? 1 : 0;
+  let box;
+  if (S.path) box = boxOf([...S.path.comp, ...S.path.conn].filter(o => o.visible && !/^P3B_AC_/.test(o.name)), ex);
+  else if (mode === "payload" || mode === "arch") box = boxOf(S.meshes.filter(o => o.visible && o.userData.row === "payload" && !/^P3B_AC_/.test(o.name)), ex);
+  else box = boxOf(S.meshes.filter(o => o.visible), ex);
+  S.frameBox = box;
+  setExplode(ex, instant);
+  const all = boxOf(S.meshes.filter(o => o.visible), ex);
+  placeShadow(all);
+  const view = solveView(box, M.dir, fitFill(M.fill));
+  S.modeFill = fitFill(M.fill);
+  S.limitBox = all.clone().expandByScalar(all.getSize(new THREE.Vector3()).length() * 0.35 + 0.08);
+  // stage had no size yet (or the solve failed): the render loop solves the view again once the stage has a size
+  S.viewPending = !finiteView(view) || !stage.clientWidth || !stage.clientHeight;
+  if (!S.viewPending) {
+    S.recoverTries = 0;
+    S.modeView[mode] = { pos: view.pos.clone(), tgt: view.tgt.clone() };   // RESET VIEW returns here
+    controls.maxDistance = Math.max(0.6, view.pos.distanceTo(view.tgt) * 3.5);
+    flyTo(view, instant);
+  }
+  buildCallouts();
+  buildChain();
+  buildLegend();
+  syncDiagram();
+  if (CHAIN[M.conn]) showTab("inspect");
+  try { history.replaceState(null, "", mode === "complete" ? location.pathname + location.search : "#" + mode); }   // shareable view link
+  catch (e) { /* sandboxed frame: the address is not updated */ }
+}
+
+// ---------- callouts
+const SUBLABEL = { payload: { name: "B300 TRANSMITTER PAYLOAD", col: COL.housing, mesh: "TUBE", off: [0, 0.056, 0] },
+  housing: { name: "B300 HOUSING", col: COL.housing, mesh: "TUBE", off: [0.11, 0.056, 0] },
+  elec: { name: "ELECTRONICS / POWER", col: COL.elec, mesh: "PCB_ANALOG_PA", off: [0.012, 0.001, -0.012] },
+  sens: { name: "ENVIRONMENTAL SENSORS", col: COL.sens, mesh: "BAR30", off: [0, 0, 0] },
+  pod: { name: "ACOUSTIC POD", col: COL.pod, mesh: "FAIRING", off: [-0.03, 0, 0.012] },
+  pztL: { name: "BAND L · ~120 kHz CLASS", sub: "LONG-RANGE / LOW-FREQUENCY PATH", col: "#ff8000", mesh: "PZT_L_120k", off: [0, 0, 0] },
+  pztH: { name: "BAND H · 500 kHz CLASS", sub: "HIGH-FREQUENCY / HIGHER-RESOLUTION PATH", col: "#9926cc", mesh: "PZT_H_500k", off: [0, 0, 0] },
+  matchL: { name: "BAND L MATCHING NETWORK", col: COL.L, mesh: "PCB_MATCH_L", off: [0, 0, 0], sel: "PCB_MATCH_L",
+            hot: ["PCB_MATCH_L", "L_TUNE_L", "XFMR_L", "J_MATCH_L_PA", "J_MATCH_L_PZT"] },
+  matchH: { name: "BAND H MATCHING NETWORK", col: COL.H, mesh: "PCB_MATCH_H", off: [0, 0, 0], sel: "PCB_MATCH_H",
+            hot: ["PCB_MATCH_H", "L_TUNE_H", "XFMR_H", "J_MATCH_H_PA", "J_MATCH_H_PZT"] } };
+function buildCallouts() {
+  const box = $("callouts"); box.innerHTML = "";
+  const M = MODE[S.mode], small = stage.clientWidth < 600;
+  S.labels = [];
+  if (SUB_LABELS[M.labels]) {
+    for (const [k, pos] of SUB_LABELS[M.labels]) {
+      const L = SUBLABEL[k];
+      S.labels.push({ k, text: L.name, sub: L.sub, col: L.col, mesh: L.mesh, off: L.off, pos, primary: k === "payload",
+                      click: () => L.sel ? selectMesh(S.byName[L.sel]) : k === "payload" ? selectRow("payload") : selectSub(k), hot: L.hot || k });
+    }
+  } else if (M.labels === "comp") {
+    for (const n of COMP_LABELS) {
+      const c = MAJOR[n]; if (!S.byName[n] || (small && !c.p)) continue;
+      S.labels.push({ k: n, text: c.t, col: c.c, mesh: n, off: [0, 0, 0], func: c.f, click: () => selectMesh(S.byName[n]), hot: n });
+    }
+  } else if (M.labels === "path" && CHAIN[M.conn]) {
+    let i = 0;
+    for (const st of CHAIN[M.conn].steps) {
+      if (st[0] === "br") continue;
+      i++;
+      if (small && i > 12) continue;
+      S.labels.push({ k: "st" + i, text: st[0].split(" · ")[0], num: i, col: st[4] || CHAIN[M.conn].c, mesh: st[1][0], off: [0, 0, 0], func: st[3],
+                      click: () => focusStep(st), hot: st[1] });
+    }
+  }
+  for (const L of S.labels) {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = "co" + (L.primary ? " primary" : "") + (L.func ? " func" : "");
+    el.innerHTML = (L.num ? `<b>${L.num}</b>` : "") + `<i style="background:${L.col}"></i>` +
+      (L.sub ? `<span class="t">${esc(L.text)}<small>${esc(L.sub)}</small></span>` : esc(L.text));
+    el.addEventListener("click", L.click);
+    el.addEventListener("mouseenter", () => hotSub(L.hot));
+    el.addEventListener("mouseleave", () => hotSub(null));
+    L.el = el;
+    box.appendChild(el);
+  }
+}
+function anchorPoint(L) {
+  const o = S.byName[L.mesh];
+  if (!o || !o.visible) return null;
+  if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+  const c = o.geometry.boundingBox.getCenter(new THREE.Vector3()).add(new THREE.Vector3(...L.off));
+  return o.localToWorld(c);
+}
+const BOTTOM = 62;                               // stage strip kept clear of callouts: camera toolbar + gizmo caption
+function bottomReserve(H) {                      // narrow stages put the evidence tags bottom-left: keep callouts above them
+  const t = $("tags");
+  let r = t.offsetHeight && t.offsetTop > H / 2 ? Math.max(BOTTOM, H - t.offsetTop + 6) : BOTTOM;
+  for (const id of ["tour", "welcome"]) { const e = $(id); if (!e.hidden) r = Math.max(r, H - e.offsetTop + 8); }   // tour card / tour offer
+  return r;
+}
+function toScreen(v, W, H) { const q = v.clone().project(camera); return { x: (q.x + 1) / 2 * W, y: (1 - q.y) / 2 * H, z: q.z }; }
+function layoutCallouts() {
+  const W = stage.clientWidth, H = stage.clientHeight, svg = $("leaders");
+  if (!S.labels.length || !S.root || !W || !H) { svg.innerHTML = ""; return; }   // hidden / zero-size stage: nothing to lay out
+  let x0 = 1e9, x1 = -1e9, y0 = 1e9;
+  if (S.frameBox) for (const p of corners(S.frameBox)) { const s = toScreen(p, W, H); x0 = Math.min(x0, s.x); x1 = Math.max(x1, s.x); y0 = Math.min(y0, s.y); }
+  const mid = (x0 + x1) / 2, cols = { L: [], R: [] }, top = 64;
+  let paths = "";
+  if (MODE[S.mode].rows && W >= 600) { svg.innerHTML = layoutRows(W, H); return; }
+  for (const L of S.labels) {
+    const a = anchorPoint(L), s = a && toScreen(a, W, H), el = L.el;
+    el.hidden = !s || s.z > 1 || s.x < 0 || s.x > W || s.y < 0 || s.y > H;   // component off-screen: no dangling leader
+    if (el.hidden) continue;
+    const w = el.offsetWidth, h = el.offsetHeight;
+    if (L.pos === "top") {
+      const lx = Math.max(8, Math.min(W - w - 8, s.x - w / 2)), ly = Math.max(top, y0 - h - 26);
+      el.style.transform = `translate(${lx}px, ${ly}px)`;
+      paths += `<path d="M${s.x},${s.y} L${s.x},${ly + h}"/><circle cx="${s.x}" cy="${s.y}" r="3"/>`;
+      continue;
+    }
+    cols[s.x < mid ? "L" : "R"].push({ el, s, w, h, y: s.y - h / 2 });
+  }
+  for (const side of ["L", "R"]) {
+    const list = cols[side].sort((p, q) => p.s.y - q.s.y);
+    const gap = list.length > 9 ? 4 : 8;
+    for (let i = 1; i < list.length; i++) list[i].y = Math.max(list[i].y, list[i - 1].y + list[i - 1].h + gap);
+    const over = list.length ? list[list.length - 1].y + list[list.length - 1].h - (H - bottomReserve(H)) : 0;
+    if (over > 0) list.forEach(it => it.y -= over);
+    for (let i = 0; i < list.length; i++) list[i].y = Math.max(list[i].y, i ? list[i - 1].y + list[i - 1].h + gap : top);
+    for (const it of list) {
+      const lx = side === "L" ? Math.max(8, x0 - 26 - it.w) : Math.min(W - it.w - 8, x1 + 26);
+      it.el.style.transform = `translate(${lx}px, ${it.y}px)`;
+      const ex = side === "L" ? lx + it.w : lx, ey = it.y + it.h / 2, kx = side === "L" ? ex + 10 : ex - 10;
+      paths += `<path d="M${ex},${ey} L${kx},${ey} L${it.s.x},${it.s.y}"/><circle cx="${it.s.x}" cy="${it.s.y}" r="2.6"/>`;
+    }
+  }
+  svg.innerHTML = paths;
+}
+
+// Row layout for the top-down technical views: callouts packed in rows above / below the model, short leaders.
+function layoutRows(W, H) {
+  let y0 = 1e9, y1 = -1e9;
+  for (const p of corners(S.frameBox)) { const s = toScreen(p, W, H); y0 = Math.min(y0, s.y); y1 = Math.max(y1, s.y); }
+  const cy = (y0 + y1) / 2, items = [];
+  for (const L of S.labels) {
+    const a = anchorPoint(L), s = a && toScreen(a, W, H);
+    L.el.hidden = !s || s.z > 1 || s.x < 0 || s.x > W || s.y < 0 || s.y > H;
+    if (!L.el.hidden) items.push({ el: L.el, s, w: L.el.offsetWidth, h: L.el.offsetHeight });
+  }
+  const bands = { T: items.filter(i => i.s.y < cy), B: items.filter(i => i.s.y >= cy) };
+  while (Math.abs(bands.T.length - bands.B.length) > 2) {        // balance the two bands by moving the nearest-to-centre label
+    const [from, to] = bands.T.length > bands.B.length ? ["T", "B"] : ["B", "T"];
+    bands[from].sort((p, q) => Math.abs(q.s.y - cy) - Math.abs(p.s.y - cy));
+    bands[to].push(bands[from].pop());
+  }
+  let paths = "";
+  for (const side of ["T", "B"]) {
+    const list = bands[side].sort((p, q) => Math.abs(p.s.x - (p.s.x)) || p.s.x - q.s.x), rows = [];
+    const h = list.length ? list[0].h : 22, step = h + 7;
+    const room = side === "T" ? y0 - 22 - 64 : (H - bottomReserve(H)) - (y1 + 22);
+    const nFit = Math.max(1, Math.floor(room / step));
+    for (const it of list) {
+      const want = Math.max(8, Math.min(W - it.w - 8, it.s.x - it.w / 2));
+      let best = null;
+      for (let r = 0; r < 8; r++) {
+        const iv = rows[r] || [];
+        const cands = [want, ...iv.flatMap(([a, b]) => [a - 6 - it.w, b + 6])];
+        for (const x of cands) {
+          if (x < 8 || x + it.w > W - 8) continue;
+          if (iv.some(([a, b]) => x < b + 6 && x + it.w > a - 6)) continue;
+          const cost = Math.abs(x - want) + r * 55 + (r >= nFit ? 400 : 0);
+          if (!best || cost < best.cost) best = { x, r, cost };
+        }
+      }
+      if (!best) best = { x: want, r: 0 };
+      (rows[best.r] = rows[best.r] || []).push([best.x, best.x + it.w]);
+      const r = best.r, x = best.x;
+      const y = r < nFit ? (side === "T" ? y0 - 22 - h - r * step : y1 + 22 + r * step)
+                         : (side === "T" ? y0 - 22 - h + (r - nFit + 1) * step : y1 + 22 - (r - nFit + 1) * step);
+      it.el.style.transform = `translate(${x}px, ${y}px)`;
+      const ex = Math.max(x + 6, Math.min(x + it.w - 6, it.s.x)), ey = side === "T" ? y + h : y;
+      paths += `<path d="M${ex},${ey} L${it.s.x},${it.s.y}"/><circle cx="${it.s.x}" cy="${it.s.y}" r="2.6"/>`;
+    }
+  }
+  return paths;
+}
+
+// ---------- chain panel + legend
+function buildChain() {
+  const M = MODE[S.mode], C = CHAIN[M.conn], el = $("chain");
+  if (!C) { el.hidden = true; el.innerHTML = ""; return; }
+  let html = `<h2 style="color:${C.c}">${C.h}</h2><p class="why">${C.why}</p><ol style="--pc:${C.c}">`;
+  let i = 0;
+  C.steps.forEach((st, j) => {
+    if (st[0] === "br") { html += `<li class="br">${esc(st[1])}</li>`; return; }
+    i++;
+    const [name, sub] = st[0].split(" · ");
+    html += `<li class="st${st[3] ? " fn" : ""}"${st[4] ? ` style="--pc:${st[4]}"` : ""}><button type="button" data-j="${j}"><b>${i}. ${esc(name)}</b>` +
+            (sub ? `<small>${esc(sub)}</small>` : "") + `<code>${esc(st[2])}</code></button></li>`;
+  });
+  html += `</ol><p class="why">${S.path.rows.length} register rows shown · ${TAG_CONN}</p>`;
+  el.innerHTML = html;
+  el.hidden = false;
+  el.querySelectorAll("button[data-j]").forEach(b => b.addEventListener("click", () => focusStep(C.steps[+b.dataset.j])));
+}
+function focusStep(st) {
+  const list = st[1].map(n => S.byName[n]).filter(Boolean);
+  if (!list.length) return;
+  const m = MAJOR[st[1][0]];
+  showSel(st[0], row("Role", esc(m ? m.role : (EXTRA_ROLE[st[1][0]] || list[0].userData.Component || ""))) +
+    row("Register", esc(st[2]), "mono") + row("CAD objects", esc(st[1].join(", ")), "mono") +
+    row("Status", statusCounts(list)), list);
+  const b = boxOf(list); b.expandByScalar(0.012);
+  flyTo(solveView(b, MODE[S.mode].dir, [0.4, 0.5]));
+}
+function buildLegend() {
+  const M = MODE[S.mode], el = $("legend");
+  if (!M.conn) { el.hidden = true; return; }
+  const types = new Set((S.path ? S.path.rows : REG).map(r => r.type));
+  const band = S.mode === "pathL" ? "L" : S.mode === "pathH" ? "H" : null;
+  const items = [["DATA", COL.data, "Data / control"], ["ANALOG", COL.common, "Analog, common (DAC → TP1)"], ["ANALOG", COL.L, "Analog Band L"],
+    ["ANALOG", COL.H, "Analog Band H", 1], ["HIGH-POWER ANALOG (PA)", COL.L, "High-power Band L"], ["HIGH-POWER ANALOG (PA)", COL.H, "High-power Band H", 1],
+    ["POWER", COL.power, "Power"], ["SENSING", COL.sens, "Sensing"], ["ACOUSTIC", COL[band || "L"], "Acoustic output (rings)"]];
+  el.innerHTML = `<b>CONNECTION TYPES · NOT PCB ROUTING</b>` + items.filter(([t, c]) => types.has(t) && (!band || c === COL[band] || c === COL.common || c === COL.data || t === "POWER" || t === "SENSING"))
+    .map(([, c, n, d]) => `<span><i class="${d ? "dash" : ""}" style="background:${c};color:${c}"></i>${n}</span>`).join("");
+  el.hidden = false;
+}
+
+// ---------- highlight, hover, selection
+function emissiveFor(o) {
+  if (S.selSet.has(o)) return 0x3a3a3a;
+  if (o === S.hot || S.hotSet.has(o)) return 0x2a2a2a;
+  return 0;
+}
+function refreshGlow(list) {
+  for (const o of list) {
+    const m = o.material;
+    if (o.userData.sub === "conn") {                  // unlit links: brighten instead of emissive
+      m.color.copy(m.userData.baseColor || m.color).lerp(new THREE.Color(1, 1, 1), emissiveFor(o) ? 0.55 : 0);
+      continue;
+    }
+    if (!m.emissive) continue;
+    const e = emissiveFor(o), u = o.userData;
+    if (e) m.emissive.setHex(e);
+    else if (u.glow) m.emissive.set(CHAIN[u.glow] ? CHAIN[u.glow].c : "#000").multiplyScalar(0.28);
+    else if (u.sub === "func") m.emissive.setHex(0x0a2a3a);
+    else m.emissive.setHex(0);
+  }
+}
+function meshesOf(k) {
+  if (Array.isArray(k)) { const s = new Set(k); return S.meshes.filter(o => s.has(o.name) || s.has(o.userData.Parent)); }
+  if (S.byName[k]) return S.meshes.filter(o => o.name === k || o.userData.Parent === k);
+  return S.meshes.filter(o => k === "payload" ? o.userData.row === "payload" : SUB[k] ? o.userData.sub === k : o.userData.row === k);
+}
+function hotSub(k) {
+  const old = [...S.hotSet];
+  S.hotSet = new Set(k ? meshesOf(k) : []);
+  refreshGlow(old); refreshGlow([...S.hotSet]);
+}
+const majorOf = o => o.userData.Parent || o.name;
+function subTitle(o) { const u = o.userData; return u.sub ? SUB[u.sub].name : u.row === "rear" ? "REAR PROPULSION" : u.row === "window" ? "ACOUSTIC WINDOW" : "AUV CONTEXT"; }
+function subCol(o) { const u = o.userData; if (u.sub === "conn") return connColor(u); const m = MAJOR[majorOf(o)]; return m ? m.c : u.sub ? SUB[u.sub].col : AUV[u.row] ? AUV[u.row].col : "#888"; }
+function regRow(o) { return REG.find(r => r.id === o.userData.ConnID); }
+function titleOf(o) {
+  const m = MAJOR[majorOf(o)];
+  if (m) return m.t;
+  const u = o.userData;
+  if (u.sub === "conn") { const r = regRow(o); return r ? r.id + " · " + r.type : u.ConnID || o.name; }
+  if (u.row === "payload") return u.Component || o.name;
+  if (/^THRUSTER_\d/.test(o.name)) return "THRUSTER " + o.name.split("_")[1] + " · " + (u.label || "").split(" - ")[1];
+  return u.label || o.name;
+}
+function roleOf(o) {
+  const n = majorOf(o), m = MAJOR[n], u = o.userData;
+  if (m) return m.role;
+  if (EXTRA_ROLE[n]) return EXTRA_ROLE[n];
+  if (u.sub === "conn") { const r = regRow(o); return r ? `${r.from} → ${r.to}: ${r.fn}` : u.Function || ""; }
+  return u.row === "payload" ? SUB[u.sub].name.toLowerCase().replace(/^\w/, c => c.toUpperCase()) + " (CAD group)" : u.Component || "AUV platform context";
+}
+function statusWord(s) { s = (s || "").toUpperCase(); return s.startsWith("LOCKED") ? "LOCKED" : s.startsWith("CANDIDATE") ? "CANDIDATE" : s.startsWith("PROPOSED") || s.startsWith("PRESENTATION") ? "PROPOSED" : "TBD"; }
+function evidenceOf(o) {
+  const n = majorOf(o), p = S.byName[n] || o, u = p.userData;
+  if (o.userData.sub === "conn") { const r = regRow(o); return (r ? r.status + " · " : "") + (/PHYSICAL/.test(r ? r.phys : "") ? "PHYSICAL ROUTE (placeholder cable, TBD)" : "ARCHITECTURAL — NOT PCB ROUTING"); }
+  const rep = (u.Representation || "").replace(/^[A-E]\. /, "");
+  const st = u.Status || "—";
+  return st + (rep && rep !== st ? " · " + rep : "") + (/NOT VERIFIED|PLACEHOLDER|TBD/i.test(st + rep) && !/NOT VERIFIED/.test(st + rep) ? " · NOT VERIFIED" : "");
+}
+function sourceShort(o) { return o.userData.row === "payload" ? "SIH26058 payload CAD" : "SIH26058 complete AUV CAD (proposed platform)"; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(), tip = $("tip");
+let lastMove = 0, downAt = null;
+function pick(ev) {
+  const r = canvas.getBoundingClientRect();
+  ptr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const hits = ray.intersectObjects(S.meshes.filter(m => m.visible && (m.material.opacity > 0.3 || m.userData.glow || m.userData.sub === "func")), false);
+  const ok = hits.filter(h => !(h.object.material.clippingPlanes.length && CLIP.distanceToPoint(h.point) < 0));
+  const solid = ok.find(h => h.object.material.opacity >= 0.5 || h.object.userData.glow);   // see through translucent shells
+  const thin = h => h.object.userData.sub === "conn" || /^(ROUTE_|P3B_)/.test(h.object.name);   // links, placeholder cables, board markers
+  if (solid && thin(solid)) {                              // lying over a major component: name the component
+    const comp = ok.find(h => h.distance - solid.distance < 0.035 && !thin(h) && MAJOR[majorOf(h.object)]);
+    if (comp) return comp.object;
+  }
+  return (solid || ok[0] || {}).object || null;
+}
+// Callout labels take no pointer events (drags always reach the canvas); the canvas hit-tests them instead.
+function labelAt(ev) {
+  for (const L of S.labels) {
+    if (!L.el || L.el.hidden) continue;
+    const r = L.el.getBoundingClientRect();
+    if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) return L;
+  }
+  return null;
+}
+let hotLabel = null;
+function setHotLabel(L) {
+  if (L === hotLabel) return;
+  if (hotLabel) hotLabel.el.classList.remove("hot");
+  hotLabel = L;
+  if (L) L.el.classList.add("hot");
+  hotSub(L ? L.hot : null);
+}
+canvas.addEventListener("pointerdown", ev => { downAt = [ev.clientX, ev.clientY]; });
+canvas.addEventListener("pointermove", ev => {
+  if (ev.buttons) { tip.hidden = true; return; }
+  const t = performance.now(); if (t - lastMove < 40 || !S.root) return; lastMove = t;
+  const L = labelAt(ev);
+  setHotLabel(L);
+  if (L) { tip.hidden = true; canvas.classList.add("over"); return; }
+  const o = pick(ev);
+  canvas.classList.toggle("over", !!o);
+  const old = S.hot; S.hot = o; refreshGlow([old, o].filter(Boolean));
+  if (!o) { tip.hidden = true; return; }
+  const ev_ = evidenceOf(o);
+  tip.innerHTML = `<span class="sub"><i style="background:${subCol(o)}"></i>${esc(titleOf(o))}</span>` +
+    `<span class="nm"><span class="k">Role</span>${esc(roleOf(o))}</span>` +
+    `<span class="meta"><span class="k">Status</span><span class="pill" data-s="${statusWord(ev_)}">${esc(ev_)}</span></span>` +
+    `<span class="meta"><span class="k">Source</span>${esc(sourceShort(o))}${o.userData.Kind === "pcb_component" ? " · presentation stylisation" : ""}</span>`;
+  tip.hidden = false;
+  const r = stage.getBoundingClientRect();
+  const x = ev.clientX - r.left + 16, y = ev.clientY - r.top + 16;
+  tip.style.left = Math.min(x, r.width - tip.offsetWidth - 8) + "px";
+  tip.style.top = Math.min(y, r.height - tip.offsetHeight - 8) + "px";
+});
+canvas.addEventListener("pointerleave", () => { tip.hidden = true; setHotLabel(null); const o = S.hot; S.hot = null; if (o) refreshGlow([o]); });
+canvas.addEventListener("click", ev => {
+  if (downAt && Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return;
+  const L = labelAt(ev);
+  if (L) { L.click(); return; }
+  const o = pick(ev);
+  o ? selectMesh(o) : clearSel();
+});
+canvas.addEventListener("dblclick", ev => {
+  const L = labelAt(ev);
+  const o = L ? S.byName[L.mesh] : pick(ev);
+  if (o) focusObject(o);
+});
+controls.addEventListener("start", () => { S.flyId++; tip.hidden = true; canvas.classList.add("dragging"); hideHint(); });
+controls.addEventListener("end", () => canvas.classList.remove("dragging"));
+controls.addEventListener("change", () => {             // keep the orbit target near the model: panning cannot lose it
+  if (!S.limitBox) return;
+  const t = controls.target, c = S.limitBox.clampPoint(t, new THREE.Vector3());
+  if (c.distanceToSquared(t) > 0) { const dv = c.sub(t); camera.position.add(dv); t.add(dv); }
+});
+$("fitBtn").addEventListener("click", fitView);
+$("resetBtn").addEventListener("click", resetView);
+function hideHint() { $("hint").classList.add("fade"); }
+setTimeout(hideHint, 9000);
+if (window.matchMedia("(pointer: coarse)").matches)
+  $("hint").innerHTML = "<span><kbd>One finger</kbd>Rotate</span><span><kbd>Two fingers</kbd>Pan / zoom</span><span><kbd>Double-tap</kbd>Focus</span>";
+
+function row(k, v, cls = "") { return v ? `<div class="row"><span class="k">${k}</span><span class="v ${cls}">${v}</span></div>` : ""; }
+function crumb(o) {
+  if (!o) return "";
+  const u = o.userData, p = S.byName[majorOf(o)] || o;
+  return u.row === "payload" ? "Transmitter payload › " + SUB[p.userData.sub || u.sub].name.toLowerCase().replace(/^\w/, c => c.toUpperCase())
+                             : "Complete AUV › " + (AUV[u.row] ? AUV[u.row].name.toLowerCase().replace(/^\w/, c => c.toUpperCase()) : "Platform");
+}
+function showSel(title, rows, set) {
+  S.selName = null;
+  $("sPath").textContent = crumb(set[0]);
+  const old = [...S.selSet];
+  S.selSet = new Set(set);
+  refreshGlow(old); refreshGlow(set);
+  $("sName").textContent = title;
+  $("sRows").innerHTML = rows;
+  $("sel").hidden = false;
+  showTab("inspect"); $("p-inspect").scrollTop = 0;
+  syncDiagram();
+}
+function clearSel() {
+  const old = [...S.selSet]; S.selSet = new Set(); refreshGlow(old); $("sel").hidden = true;
+  if (S.selName) { S.selName = null; setPartHash(null); }
+  syncDiagram();
+}
+const selBox = new THREE.Box3Helper(new THREE.Box3(), new THREE.Color(0x3cc3ff));
+selBox.material.depthTest = false; selBox.material.transparent = true; selBox.material.opacity = 0.85; selBox.material.toneMapped = false;
+selBox.renderOrder = 20; selBox.visible = false; scene.add(selBox);
+function updateSelBox() {
+  const list = [...S.selSet].filter(o => o.visible);
+  selBox.visible = list.length > 0 && list.length < 200;
+  if (selBox.visible) selBox.box.copy(padBox(boxOf(list), 0.01)).expandByScalar(0.0015);
+}
+$("sClose").addEventListener("click", clearSel);
+function selectMesh(o) {
+  const n = majorOf(o), p = S.byName[n] || o, u = p.userData, ev_ = evidenceOf(o);
+  const conns = REG.filter(r => r.from === n || r.to === n);
+  const cr = o.userData.sub === "conn" ? regRow(o) : null;
+  showSel(titleOf(o),
+    row("Role", esc(roleOf(o))) +
+    row("Evidence", `<span class="pill" data-s="${statusWord(ev_)}">${esc(ev_)}</span>`) +
+    row("Subsystem", esc(subTitle(p))) +
+    (cr ? row("Register", esc(`${cr.id}: ${cr.from} → ${cr.to}`), "mono") + row("Function", esc(cr.fn)) + row("Physical / arch.", esc(cr.phys)) : "") +
+    row("CAD evidence", esc(u.Evidence || "")) +
+    row("CAD object", esc(n + (o !== p ? " (+ " + o.name + ", presentation)" : "")), "mono") +
+    row("Source", esc(u.source || "SIH26058_COMPLETE_AUV_PRESENTATION_r02.FCStd / " + n), "mono") +
+    (conns.length ? row("Connections", `<div class="conns">${conns.map(r => esc(`${r.id}  ${r.from === n ? "→ " + r.to : "← " + r.from}  ${r.fn}`)).map(s => `<span>${s}</span>`).join("")}</div>`) : ""),
+    meshesOf(n));
+  S.selName = n; setPartHash(n);                        // the address opens this part: #view:PART
+}
+function statusCounts(list) {
+  const c = {};
+  list.forEach(o => { const w = statusWord(o.userData.Status); c[w] = (c[w] || 0) + 1; });
+  return ["LOCKED", "CANDIDATE", "PROPOSED", "TBD"].filter(w => c[w]).map(w => `<span class="pill" data-s="${w}">${w} ${c[w]}</span>`).join("&ensp;");
+}
+function selectSub(k, focus = true) {
+  const list = meshesOf(k);
+  showSel(SUB[k].name,
+    row("Role", k === "conn" ? `${REG.length}-row connectivity register drawn on the presentation model` : k === "func" ? "Firmware blocks and internal DAC peripherals of the STM32G474 - not physical chips" : "Subsystem of the B300 transmitter payload") +
+    row("CAD group", "TRANSMITTER_PAYLOAD › " + SUB[k].group, "mono") +
+    row("Objects", String(list.length)) +
+    row("Status", statusCounts(list)) +
+    row("Source", "SIH26058_PAYLOAD_B300_r02_PRESENTATION_v2.FCStd (linked)", "mono"), list);
+  if (focus) {
+    if (k === "conn") { setMode("arch"); return; }
+    if (S.mode === "complete") setMode("payload");
+    const b = new THREE.Box3(); list.forEach(o => o.visible && b.expandByObject(o));
+    if (!b.isEmpty()) flyTo(solveView(b, MODE[S.mode].dir, [0.5, 0.6]));
+  }
+}
+function selectRow(k) {
+  const list = meshesOf(k);
+  const names = { hull: "AUV_HULL, NOSE_SECTION, PAYLOAD_BAY, PAYLOAD_MOUNTING", payload: "TRANSMITTER_PAYLOAD",
+                  window: "AUV_HULL › ACOUSTIC_WINDOW_FRAME", rear: "REAR_PROPULSION" };
+  showSel(AUV[k].name,
+    row("Role", k === "payload" ? "Primary product: the SIH26058 transmitter payload" : "AUV platform context (" + AUV[k].note + ")") +
+    row("CAD group", names[k], "mono") +
+    row("Objects", String(list.length)) +
+    row("Status", statusCounts(list)) +
+    row("Source", k === "payload" ? "SIH26058_PAYLOAD_B300_r02_PRESENTATION_v2.FCStd (linked)" : "SIH26058_COMPLETE_AUV_PRESENTATION_r02.FCStd", "mono"), list);
+  if (k === "payload" && S.mode === "complete") setMode("payload");
+}
+
+// ---------- simplified trees
+const EYE = '<svg class="i on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>' +
+  '<svg class="i off" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.5 5.6c.5-.1 1-.1 1.5-.1 6.4 0 10 6.5 10 6.5a17 17 0 0 1-3.1 3.9M6.6 6.7C3.7 8.5 2 12 2 12s3.6 6.5 10 6.5c1.8 0 3.4-.5 4.8-1.2"/></svg>';
+function treeRow(key, label, col, count, onGo, cls = "") {   // aria-pressed (set by apply) switches the eye icon
+  const li = document.createElement("li");
+  li.innerHTML = `<button class="go ${cls}" type="button"><i style="background:${col}"></i><span class="nm">${label}</span><small>${count}</small></button>` +
+    `<button class="eye" type="button" data-key="${key}" aria-pressed="true" aria-label="Show or hide ${label}" title="Show / hide">${EYE}</button>`;
+  li.querySelector(".go").addEventListener("click", onGo);
+  const eye = li.querySelector(".eye");
+  eye.addEventListener("click", () => {
+    S.hidden.has(key) ? S.hidden.delete(key) : S.hidden.add(key);
+    apply();
+  });
+  const k = key.replace("sub:", "");
+  li.addEventListener("mouseenter", () => hotSub(k));
+  li.addEventListener("mouseleave", () => hotSub(null));
+  return li;
+}
+function buildTrees() {
+  const tp = $("treePay");
+  const head = treeRow("payload", "TRANSMITTER PAYLOAD", AUV.payload.col, meshesOf("payload").length, () => selectRow("payload"), "root");
+  const ul = document.createElement("ul"); ul.className = "tree sub";
+  for (const k of ["housing", "sens", "elec", "func", "pod", "pztL", "pztH", "conn"]) ul.appendChild(treeRow("sub:" + k, SUB[k].name, SUB[k].col, meshesOf(k).length, () => selectSub(k)));
+  head.appendChild(ul);
+  tp.appendChild(head);
+  const ta = $("treeAuv");
+  const top = document.createElement("li");
+  top.innerHTML = `<button class="go root" type="button"><i style="background:${AUV.hull.col}"></i><span class="nm">COMPLETE AUV</span><small>${S.meshes.length}</small></button>`;
+  top.querySelector(".go").addEventListener("click", () => { clearSel(); setMode("complete"); });
+  const ul2 = document.createElement("ul"); ul2.className = "tree sub";
+  for (const k of ["hull", "payload", "window", "rear"]) {
+    if (k === "payload") {
+      const li = document.createElement("li");
+      li.innerHTML = `<button class="go" type="button"><i style="background:${AUV.payload.col}"></i><span class="nm">TRANSMITTER PAYLOAD</span><small>${meshesOf("payload").length}</small></button>`;
+      li.querySelector(".go").addEventListener("click", () => selectRow("payload"));
+      ul2.appendChild(li); continue;
+    }
+    ul2.appendChild(treeRow(k, AUV[k].name, AUV[k].col, meshesOf(k).length, () => selectRow(k)));
+  }
+  top.appendChild(ul2); ta.appendChild(top);
+}
+function buildCadList() {
+  $("nObj").textContent = S.meshes.length;
+  $("stObjs").textContent = S.meshes.length;
+  const by = {};
+  for (const o of S.meshes) { const g = chain(o).reverse().slice(1).join(" › "); (by[g] = by[g] || []).push(o); }
+  $("cad").addEventListener("toggle", () => {
+    if ($("cadList").childElementCount) return;
+    for (const [g, list] of Object.entries(by)) {
+      const d = document.createElement("div"); d.className = "grp";
+      d.innerHTML = `<b>${esc(g)}</b><div class="objs"></div>`;
+      for (const o of list) {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = o.name;
+        b.addEventListener("click", () => goToMesh(o));
+        d.querySelector(".objs").appendChild(b);
+      }
+      $("cadList").appendChild(d);
+    }
+  });
+}
+
+// ---------- controls wiring and render loop
+$("modes").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { clearSel(); setMode(b.dataset.mode); } });
+$("hullOp").addEventListener("input", apply);
+$("payOp").addEventListener("input", apply);
+const gizmo = new ViewHelper(camera, stage);     // presentation-only orientation gizmo (bottom-right)
+gizmo.center = controls.target;
+$("gizmo").addEventListener("pointerup", ev => { S.flyId++; gizmo.handleClick(ev); });
+const clock = new THREE.Clock();
+let lastW = 0;
+function finiteView(v) { return [v.pos.x, v.pos.y, v.pos.z, v.tgt.x, v.tgt.y, v.tgt.z].every(Number.isFinite); }
+function cameraOk() { return finiteView({ pos: camera.position, tgt: controls.target }) && Number.isFinite(camera.near); }
+function recoverView() {                              // a view solved before the stage had a size: reset the camera, solve again
+  S.recoverTries++;
+  resize();
+  camera.near = 0.005; camera.far = 60;
+  camera.position.set(-1, 0.6, 1.2); controls.target.set(0, 0, 0);
+  camera.lookAt(controls.target); camera.updateProjectionMatrix();
+  S.flyId++;
+  setMode(S.mode, true);
+}
+function loop() {
+  if (S.root && stage.clientWidth && stage.clientHeight && S.recoverTries < 3 && (S.viewPending || !cameraOk())) recoverView();
+  const dt = clock.getDelta();
+  if (gizmo.animating) gizmo.update(dt);
+  controls.enabled = !gizmo.animating;
+  controls.update();
+  const d = camera.position.distanceTo(controls.target);          // clipping range follows the zoom level
+  const near = THREE.MathUtils.clamp(d * 0.02, 0.001, 0.05), far = Math.max(6, d * 30);
+  if (Math.abs(near - camera.near) > camera.near * 0.15 || far !== camera.far) { camera.near = near; camera.far = far; camera.updateProjectionMatrix(); }
+  ground.visible = camera.position.y > ground.position.y + 0.01;
+  updateSelBox();
+  renderer.clear();
+  renderer.render(scene, camera);
+  gizmo.render(renderer);
+  if (stage.clientWidth !== lastW && S.root) { lastW = stage.clientWidth; buildCallouts(); }
+  layoutCallouts();
+  requestAnimationFrame(loop);
+}
+camera.position.set(-1, 0.6, 1.2);
+loop();
+loadBuffer().then(buf => {
+  setStatus("Building the 3D scene"); loadProgress(1, 1);
+  new GLTFLoader().parse(buf, "", setup, err => setStatus("The 3D model could not be read: " + err, true));
+}).catch(() => {
+  setStatus("Model file not found: keep SIH26058_COMPLETE_AUV_r06.glb or model_data.js next to this page", true);
+});
+// ---------- page shell: inspector tabs, theme, presentation layout, full screen, keyboard shortcuts
+function showTab(k) {
+  for (const t of document.querySelectorAll("#tabs [role=tab]")) {
+    const on = t.dataset.tab === k;
+    t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+    $("p-" + t.dataset.tab).hidden = !on;
+  }
+}
+$("tabs").addEventListener("click", e => { const t = e.target.closest("[role=tab]"); if (t) showTab(t.dataset.tab); });
+$("tabs").addEventListener("keydown", e => {             // arrow keys move between the inspector tabs
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  const tabs = [...document.querySelectorAll("#tabs [role=tab]")], i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  const t = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+  showTab(t.dataset.tab); t.focus(); e.preventDefault();
+});
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("sih26058-theme", t); } catch (e) { /* storage blocked: the theme lasts for this visit */ }
+}
+$("themeBtn").addEventListener("click", () => setTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light"));
+function togglePanels() {                             // the stage changes size: re-frame the current view for the new aspect
+  $("focusBtn").setAttribute("aria-pressed", String($("app").classList.toggle("focus")));
+  if (S.root) requestAnimationFrame(() => { resize(); setMode(S.mode); });
+}
+$("focusBtn").addEventListener("click", togglePanels);
+if (document.fullscreenEnabled) {
+  $("fsBtn").addEventListener("click", () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}));
+  document.addEventListener("fullscreenchange", () => $("fsBtn").setAttribute("aria-pressed", String(!!document.fullscreenElement)));
+} else $("fsBtn").hidden = true;
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => { clearSel(); setMode(b.dataset.go); }));
+const KEY_MODES = [...document.querySelectorAll("#modes button[data-mode]")].map(b => b.dataset.mode);   // keys 1-9 in rail order
+addEventListener("hashchange", () => {                  // a view or part link typed into the address bar: #view or #view:PART
+  const [h0, part] = location.hash.slice(1).split(":"), h = { pathA: "pathL", pathB: "pathH" }[h0] || h0;
+  if (!S.root) return;
+  if (MODE[h] && h !== S.mode) { clearSel(); setMode(h); }
+  if (part && S.byName[part]) goToMesh(S.byName[part]);
+});
+$("stLinks").textContent = REG.length;
+// ---------- toasts, part links, go-to
+function toast(msg, ms = 2600) {
+  const t = document.createElement("div");
+  t.className = "toast"; t.textContent = msg;
+  $("toasts").appendChild(t);
+  requestAnimationFrame(() => t.classList.add("in"));
+  setTimeout(() => { t.classList.remove("in"); setTimeout(() => t.remove(), 400); }, ms);
+}
+function partHash(name) { return "#" + S.mode + (name ? ":" + name : ""); }
+function setPartHash(name) {
+  try { history.replaceState(null, "", name ? partHash(name) : (S.mode === "complete" ? location.pathname + location.search : "#" + S.mode)); }
+  catch (e) { /* sandboxed frame: the address is not updated */ }
+}
+function goToMesh(o) {                                 // search, CAD list and part links: show the part, select it, frame it
+  if (!o) return;
+  const u = o.userData;
+  if (S.hidden.has(u.row) || (u.sub && S.hidden.has("sub:" + u.sub))) {
+    S.hidden.delete(u.row); if (u.sub) S.hidden.delete("sub:" + u.sub);
+    document.querySelectorAll(".eye").forEach(b => b.setAttribute("aria-pressed", String(!S.hidden.has(b.dataset.key))));
+  }
+  if (u.sub === "conn" && !MODE[S.mode].conn) setMode("arch");
+  else if (u.row === "payload" && u.sub !== "conn" && ["complete", "cutaway"].includes(S.mode) && u.role !== "shell") setMode("payload");
+  else if (!modeShows(u, S.mode)) setMode(u.row === "payload" ? "payload" : "complete");
+  else apply();
+  selectMesh(o);
+  const list = focusList(o).filter(m => m.visible || m === o);
+  flyTo(solveView(padBox(boxOf(list)), currentDir(), [0.42, 0.48]));
+}
+
+// ---------- isolate the selection
+function isolate(on) {
+  S.isolate = on && S.selSet.size ? new Set(S.selSet) : null;
+  $("iso").hidden = !S.isolate;
+  stage.classList.toggle("isolating", !!S.isolate);
+  $("sIso").setAttribute("aria-pressed", String(!!S.isolate));
+  if (S.isolate) $("isoName").textContent = $("sName").textContent;
+  apply();
+  if (S.isolate) flyTo(solveView(padBox(boxOf([...S.isolate])), currentDir(), [0.45, 0.52]));
+}
+$("isoOff").addEventListener("click", () => isolate(false));
+$("sIso").addEventListener("click", () => isolate(!S.isolate));
+$("sFocus").addEventListener("click", () => {
+  const list = [...S.selSet].filter(o => o.visible);
+  if (list.length) flyTo(solveView(padBox(boxOf(list)), currentDir(), [0.42, 0.48]));
+});
+$("sLink").addEventListener("click", async () => {
+  const url = location.origin + location.pathname + location.search + partHash(S.selName);
+  try { await navigator.clipboard.writeText(url); toast("Link copied - it opens this part in this view"); }
+  catch (e) { toast(url, 6000); }
+});
+
+// ---------- cutaway section plane
+$("sectR").addEventListener("input", () => {
+  const v = +$("sectR").value;
+  CLIP.constant = v / 1000;                            // keeps Z <= v mm (the camera-side part is removed)
+  $("sectV").textContent = (v > 0 ? "+" : "") + v + " mm";
+  renderer.shadowMap.needsUpdate = true;
+});
+
+// ---------- snapshot: model, leaders, callouts, caption and the truth line on the stage background
+function snapshot() {
+  const prevRatio = renderer.getPixelRatio();
+  renderer.setPixelRatio(Math.max(2, prevRatio));     // slide-ready: at least 2x the on-screen resolution
+  renderer.setSize(stage.clientWidth, stage.clientHeight, false);
+  const cv = renderer.domElement, W = cv.width, H = cv.height, dpr = W / stage.clientWidth;
+  const showSel_ = selBox.visible; selBox.visible = false;
+  renderer.clear(); renderer.render(scene, camera);
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d"), cs = getComputedStyle(document.documentElement), css = k => cs.getPropertyValue(k).trim();
+  const bg = x.createRadialGradient(W * 0.5, H * 0.38, 0, W * 0.5, H * 0.38, Math.max(W, H) * 0.75);
+  bg.addColorStop(0, css("--vp-hi")); bg.addColorStop(1, css("--vp-lo"));
+  x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  x.drawImage(cv, 0, 0);
+  selBox.visible = showSel_;
+  renderer.setPixelRatio(prevRatio); resize();
+  const sr = stage.getBoundingClientRect();
+  x.strokeStyle = css("--leader"); x.lineWidth = dpr;
+  for (const p of $("leaders").querySelectorAll("path")) {
+    const n = (p.getAttribute("d").match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+    if (n.length < 4) continue;
+    x.beginPath(); x.moveTo(n[0] * dpr, n[1] * dpr);
+    for (let i = 2; i + 1 < n.length; i += 2) x.lineTo(n[i] * dpr, n[i + 1] * dpr);
+    x.stroke();
+  }
+  x.fillStyle = css("--fg");
+  for (const q of $("leaders").querySelectorAll("circle")) {
+    x.beginPath(); x.arc(+q.getAttribute("cx") * dpr, +q.getAttribute("cy") * dpr, 2.6 * dpr, 0, 2 * Math.PI); x.fill();
+  }
+  const box = (l, t, w, h, r) => { x.beginPath(); if (x.roundRect) x.roundRect(l, t, w, h, r); else x.rect(l, t, w, h); };
+  for (const L of S.labels) {
+    if (!L.el || L.el.hidden) continue;
+    const r = L.el.getBoundingClientRect(), l = (r.left - sr.left) * dpr, t = (r.top - sr.top) * dpr;
+    box(l, t, r.width * dpr, r.height * dpr, 7 * dpr);
+    x.fillStyle = css("--callout"); x.fill(); x.strokeStyle = css("--line-2"); x.lineWidth = dpr; x.stroke();
+    x.fillStyle = L.col; x.beginPath(); x.arc(l + 11 * dpr, t + r.height * dpr / 2, 4 * dpr, 0, 2 * Math.PI); x.fill();
+    x.fillStyle = css("--fg"); x.font = `600 ${11.5 * dpr}px "Space Grotesk", sans-serif`; x.textBaseline = "middle";
+    const label = (L.num ? L.num + "  " : "") + L.text;
+    x.fillText(label, l + 20 * dpr, t + (L.sub ? r.height * 0.36 : r.height / 2) * dpr);
+    if (L.sub) { x.fillStyle = css("--muted"); x.font = `600 ${9.5 * dpr}px "Space Grotesk", sans-serif`; x.fillText(L.sub, l + 20 * dpr, t + r.height * 0.72 * dpr); }
+  }
+  x.textBaseline = "alphabetic";
+  x.fillStyle = css("--fg"); x.font = `700 ${15 * dpr}px "Space Grotesk", sans-serif`;
+  x.fillText(MODE[S.mode].t, 18 * dpr, 30 * dpr);
+  x.fillStyle = css("--muted"); x.font = `500 ${11 * dpr}px "JetBrains Mono", monospace`;
+  x.fillText("SIH 2026 · PS 26058 · Lightning Logics · B300 transmitter payload · presentation model - not fabricated", 18 * dpr, H - 16 * dpr);
+  c.toBlob(bl => {
+    if (!bl) { toast("Snapshot failed in this browser"); return; }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(bl); a.download = `SIH26058_${S.mode}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    toast("Snapshot saved as " + a.download);
+  });
+}
+$("snapBtn").addEventListener("click", snapshot);
+
+// ---------- system diagram (inspector): click a block to fly to it, hover to highlight it in 3D
+const DIAG = [   // id, label, sub, x, y, w, band (c common, L, H, pwr, sns), colour, CAD objects, register rows
+  ["mcu", "STM32G474", "adaptation · DDS · 12-bit DAC3", 8, 8, 304, "c", COL.digital, ["STM32G474RE", "P3B_ADAPTATION_ENGINE", "P3B_WAVEFORM_GEN"], "FW-01 · FW-02 · FW-03"],
+  ["opa", "OPA2356", "DAC buffer", 8, 58, 92, "c", COL.common, ["OPA2356"], "SIG-03"],
+  ["flt", "4th-order filter", "~600 kHz Butterworth", 108, 58, 120, "c", COL.common, ["RECON_FILTER"], "SIG-04"],
+  ["tp1", "TP1", "scope / FFT", 236, 58, 76, "c", COL.common, ["TP1"], "SIG-05"],
+  ["paL", "THS3491 L1 / L2", "Band L · BTL PA", 8, 122, 148, "L", COL.L, ["THS3491_L1", "THS3491_L2"], "SIG-L06 · SIG-L07 · PA-L01 · PA-L02"],
+  ["paH", "THS3491 H1 / H2", "Band H · BTL PA", 164, 122, 148, "H", COL.H, ["THS3491_H1", "THS3491_H2"], "SIG-H06 · SIG-H07 · PA-H01 · PA-H02"],
+  ["mL", "Match L", "to be tuned", 8, 172, 148, "L", COL.L, ["PCB_MATCH_L", "L_TUNE_L", "XFMR_L"], "PA-L04 · PA-L05 · PA-L06"],
+  ["mH", "Match H", "~27 µH start, to be tuned", 164, 172, 148, "H", COL.H, ["PCB_MATCH_H", "L_TUNE_H", "XFMR_H"], "PA-H04 · PA-H05 · PA-H06"],
+  ["pL", "PZT · Band L", "~120 kHz class", 8, 222, 148, "L", COL.L, ["PZT_L_120k"], "PA-L08 · AC-L01"],
+  ["pH", "PZT · Band H", "500 kHz class", 164, 222, 148, "H", COL.H, ["PZT_H_500k"], "PA-H08 · AC-H01"],
+  ["pwr", "Power", "eFuse · 3.3 V · 30 V rail", 8, 306, 148, "pwr", COL.power, ["TPS2663", "TPS62933", "LM5157", "EEUFR1H102"], "PWR-01 … PWR-20"],
+  ["sns", "Sensing", "depth · temperature · leak", 164, 306, 148, "sns", COL.sens, ["BAR30", "CELSIUS", "SOS_LEAK_BOARD"], "SENS-01 … SENS-07"]];
+const DH = 40;
+function buildDiagram() {
+  const by = Object.fromEntries(DIAG.map(d => [d[0], d]));
+  const mid = d => [d[3] + d[5] / 2, d[4] + DH / 2], bot = d => [d[3] + d[5] / 2, d[4] + DH], top = d => [d[3] + d[5] / 2, d[4]];
+  const MK = { [COL.common]: "dArrC", [COL.L]: "dArrL", [COL.H]: "dArrH" };
+  const edge = (a, b, col, dash) => {
+    const [x1, y1] = bot(by[a]), [x2, y2] = top(by[b]), my = (y1 + y2) / 2;
+    return `<path d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2 - 3}" stroke="${col}"${dash ? ' stroke-dasharray="4 3"' : ""} marker-end="url(#${MK[col]})"/>`;
+  };
+  const hz = (a, b) => { const A = by[a], B = by[b], y = A[4] + DH / 2; return `<path d="M${A[3] + A[5]},${y} L${B[3] - 3},${y}" stroke="${COL.common}" marker-end="url(#dArrC)"/>`; };
+  let s = "<defs>" + Object.entries(MK).map(([c, id]) => `<marker id="${id}" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="${c}"/></marker>`).join("") + "</defs>";
+  s += `<g class="edges">${edge("mcu", "opa", COL.common)}${hz("opa", "flt")}${hz("flt", "tp1")}${edge("tp1", "paL", COL.L)}${edge("tp1", "paH", COL.H, 1)}` +
+       `${edge("paL", "mL", COL.L)}${edge("mL", "pL", COL.L)}${edge("paH", "mH", COL.H, 1)}${edge("mH", "pH", COL.H, 1)}</g>`;
+  s += `<g class="water">${[0, 1, 2].map(i => `<path d="M${30 + i * 4},${270 + i * 5} q24,-6 48,0 t48,0" stroke="${COL.L}"/><path d="M${186 + i * 4},${270 + i * 5} q24,-6 48,0 t48,0" stroke="${COL.H}" stroke-dasharray="4 3"/>`).join("")}</g>`;
+  s += `<text class="note" x="160" y="296">only the selected band is enabled for each ping</text>`;
+  for (const d of DIAG) {
+    const [id, t, sub, x, y, w, band, col] = d;
+    s += `<g class="blk" data-id="${id}" data-band="${band}" tabindex="0" role="button" aria-label="${esc(t)}: ${esc(sub)}">` +
+         `<rect x="${x}" y="${y}" width="${w}" height="${DH}" rx="8" style="--bc:${col}"/>` +
+         `<circle cx="${x + 12}" cy="${y + 14}" r="3.5" fill="${col}"/>` +
+         `<text class="t" x="${x + 21}" y="${y + 17}">${esc(t)}</text><text class="s" x="${x + 12}" y="${y + 31}">${esc(sub)}</text></g>`;
+  }
+  $("diag").innerHTML = s;
+  for (const g of $("diag").querySelectorAll(".blk")) {
+    const d = by[g.dataset.id];
+    const go = () => {
+      if (d[6] === "pwr" || d[6] === "sns") { clearSel(); setMode(d[6] === "pwr" ? "power" : "sensing"); return; }
+      if (!["payload", "arch", "pathL", "pathH", "exploded"].includes(S.mode) || (S.mode === "pathL" && d[6] === "H") || (S.mode === "pathH" && d[6] === "L"))
+        setMode(d[6] === "H" ? "pathH" : "pathL");
+      focusStep([d[1] + " · " + d[2], d[8], d[9]]);
+    };
+    g.addEventListener("click", go);
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    g.addEventListener("mouseenter", () => hotSub(d[8]));
+    g.addEventListener("mouseleave", () => hotSub(null));
+  }
+  syncDiagram();
+}
+function syncDiagram() {
+  const svg = $("diag"); if (!svg) return;
+  const dim = { pathL: ["H", "pwr", "sns"], pathH: ["L", "pwr", "sns"], power: ["c", "L", "H", "sns"], sensing: ["c", "L", "H", "pwr"] }[S.mode] || [];
+  const sel = new Set([...S.selSet].map(o => majorOf(o)));
+  for (const g of svg.querySelectorAll(".blk")) {
+    const d = DIAG.find(q => q[0] === g.dataset.id);
+    g.classList.toggle("dim", dim.includes(d[6]));
+    g.classList.toggle("on", d[8].some(n => sel.has(n)));
+  }
+  svg.classList.toggle("mode-h", S.mode === "pathH");
+}
+
+// ---------- search palette (Ctrl K, /)
+const PAL = { open: false, items: [], list: [], idx: 0, back: null };
+const ICON_T = { View: "◎", Action: "↯", Component: "■", Part: "▪", Connection: "↔", AUV: "▲" };
+function palBuild() {
+  const out = [];
+  for (const b of document.querySelectorAll("#modes button[data-mode]"))
+    out.push({ type: "View", label: b.querySelector(".tx b").textContent, sub: b.querySelector(".tx small").textContent,
+               col: b.style.getPropertyValue("--mc") || "var(--accent)", run: () => { clearSel(); setMode(b.dataset.mode); } });
+  const act = (label, sub, run) => out.push({ type: "Action", label, sub, col: "var(--accent-2)", run });
+  act("Start the guided tour", "10 steps through the design · T", tourStart);
+  act("Snapshot", "save the current view as a PNG", snapshot);
+  act("Switch light / dark theme", "", () => setTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light"));
+  act("Presentation layout", "hide the side panels · P", togglePanels);
+  act("Fit view", "frame the selection or the view · F", fitView);
+  act("Reset view", "default camera of this view · R", resetView);
+  act("Show everything", "end isolation, show hidden groups", () => { S.hidden.clear(); isolate(false); });
+  if (document.fullscreenEnabled) act("Full screen", "", () => $("fsBtn").click());
+  for (const [n, c] of Object.entries(MAJOR)) if (S.byName[n])
+    out.push({ type: "Component", label: c.t, sub: c.role, key: n, col: c.c, run: () => goToMesh(S.byName[n]) });
+  for (const o of S.meshes) {
+    const n = o.name, u = o.userData;
+    if (MAJOR[n] || u.sub === "conn" || /^(PKG_|P3B_(ZONE|RIM|MH|ARW|AC)_)/.test(n)) continue;
+    out.push({ type: u.row === "payload" ? "Part" : "AUV", label: titleOf(o), sub: n + " · " + subTitle(o), key: n, col: subCol(o), run: () => goToMesh(o) });
+  }
+  for (const r of REG) {
+    const m = rowMeshes(r).find(o => o.userData.sub === "conn") || rowMeshes(r)[0];
+    if (m) out.push({ type: "Connection", label: `${r.id} · ${r.from} → ${r.to}`, sub: r.fn, key: r.id, col: connColor({ ConnType: /\(PA\)/.test(r.type) ? "PA" : r.type, Band: r.band }), run: () => goToMesh(m) });
+  }
+  PAL.items = out;
+}
+const TYPE_RANK = { View: 0, Action: 1, Component: 2, Part: 3, Connection: 4, AUV: 5 };
+function palFilter(q) {
+  const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!toks.length) return PAL.items.filter(i => i.type === "View" || i.type === "Action" || i.type === "Component");
+  const res = [];
+  for (const it of PAL.items) {
+    const lab = it.label.toLowerCase(), hay = lab + " " + (it.key || "").toLowerCase() + " " + (it.sub || "").toLowerCase();
+    let score = TYPE_RANK[it.type] * 2, ok = true;
+    for (const t of toks) {
+      const i = hay.indexOf(t);
+      if (i < 0) { ok = false; break; }
+      score += lab.startsWith(t) ? 0 : lab.includes(t) ? 3 : 8 + Math.min(i, 40) / 10;
+    }
+    if (ok) res.push([score, it]);
+  }
+  return res.sort((a, b) => a[0] - b[0]).slice(0, 60).map(r => r[1]);
+}
+function palRender() {
+  const q = $("palQ").value;
+  PAL.list = palFilter(q);
+  PAL.idx = Math.min(PAL.idx, Math.max(0, PAL.list.length - 1));
+  let last = "";
+  $("palList").innerHTML = PAL.list.length ? PAL.list.map((it, i) => {
+    const head = it.type !== last ? `<li class="pal-h" role="presentation">${it.type === "AUV" ? "AUV platform" : it.type + "s"}</li>` : "";
+    last = it.type;
+    return head + `<li role="option" id="pal-${i}" data-i="${i}" aria-selected="${i === PAL.idx}"><i style="background:${it.col}">${ICON_T[it.type]}</i>` +
+      `<span><b>${esc(it.label)}</b><small>${esc(it.sub || "")}</small></span>${it.key ? `<code>${esc(it.key)}</code>` : ""}</li>`;
+  }).join("") : `<li class="pal-empty" role="presentation">No match for “${esc(q)}”. Try a part number (THS3491), a register ID (PA-L05) or a view (power).</li>`;
+  $("palQ").setAttribute("aria-activedescendant", PAL.list.length ? "pal-" + PAL.idx : "");
+}
+function palMove(d) {
+  if (!PAL.list.length) return;
+  PAL.idx = (PAL.idx + d + PAL.list.length) % PAL.list.length;
+  for (const li of $("palList").querySelectorAll("[role=option]")) li.setAttribute("aria-selected", String(+li.dataset.i === PAL.idx));
+  $("palQ").setAttribute("aria-activedescendant", "pal-" + PAL.idx);
+  const el = $("pal-" + PAL.idx); if (el) el.scrollIntoView({ block: "nearest" });
+}
+function palRun(i) { const it = PAL.list[i]; palClose(); if (it) it.run(); }
+function palOpen() {
+  if (!S.root) return;
+  if (!PAL.items.length) palBuild();
+  PAL.back = document.activeElement;
+  PAL.open = true; $("palette").hidden = false; palPtr = "";
+  $("palQ").value = ""; PAL.idx = 0; palRender();
+  $("palQ").focus();
+}
+function palClose() {
+  PAL.open = false; $("palette").hidden = true;
+  if (PAL.back && PAL.back.focus) PAL.back.focus();
+}
+$("searchBtn").addEventListener("click", palOpen);
+$("palQ").addEventListener("input", () => { PAL.idx = 0; palRender(); });
+$("palQ").addEventListener("keydown", e => {
+  if (e.key === "ArrowDown") { e.preventDefault(); palMove(1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); palMove(-1); }
+  else if (e.key === "Enter") { e.preventDefault(); palRun(PAL.idx); }
+  else if (e.key === "Escape") { e.preventDefault(); palClose(); }
+});
+$("palList").addEventListener("click", e => { const li = e.target.closest("[role=option]"); if (li) palRun(+li.dataset.i); });
+let palPtr = "";
+$("palList").addEventListener("mousemove", e => {
+  const at = e.clientX + "," + e.clientY;             // ignore the synthetic move a browser sends when the list re-renders under a still pointer
+  if (at === palPtr) return;
+  palPtr = at;
+  const li = e.target.closest("[role=option]");
+  if (li && +li.dataset.i !== PAL.idx) { PAL.idx = +li.dataset.i; for (const x of $("palList").querySelectorAll("[role=option]")) x.setAttribute("aria-selected", String(x === li)); }
+});
+$("palette").addEventListener("mousedown", e => { if (e.target === $("palette")) palClose(); });
+
+// ---------- guided tour
+const TOUR = [
+  { mode: "complete", t: "Adaptive sonar transmitter for AUVs",
+    s: "The B300 transmitter payload sits in the AUV's payload bay. Its two projectors look down through an acoustic window in the hull belly." },
+  { mode: "payload", t: "Inside the B300 payload",
+    s: "An aluminium pressure housing carries a two-tier electronics tray: digital control, the transmit chain, power conversion and the two matching networks. Depth, temperature and leak sensors connect through the end caps." },
+  { mode: "pathL", t: "One DAC drives both bands",
+    s: "The STM32G474 adapts the waveform and synthesises it (DDS, 4096-point sine table) on a single 12-bit DAC. The OPA2356 drives a common 4th-order ~600 kHz filter; TP1 is the oscilloscope / FFT test point.",
+    focus: ["STM32G474RE", "P3B_DAC3", "OPA2356", "RECON_FILTER", "TP1"], reg: "FW-03 · SIG-01 … SIG-05" },
+  { mode: "pathL", t: "Band L – ~120 kHz class",
+    s: "Long-range / low-frequency path: THS3491 L1 / L2 in bridge-tied load, the Band L matching network (to be tuned from impedance measurement) and the ~120 kHz-class projector. Only the selected band is enabled for each ping." },
+  { mode: "pathH", t: "Band H – 500 kHz class",
+    s: "High-frequency / higher-resolution path: THS3491 H1 / H2, the 500 kHz matching network (initial target ~27 µH, to be tuned) and the 500 kHz-class projector." },
+  { mode: "exploded", t: "Matching networks",
+    s: "Each band has its own matching network: a shunt tuning inductor that cancels the projector's capacitance and an impedance-transform element. Values start from calculation and are tuned from impedance measurement.",
+    focus: ["PCB_MATCH_L", "L_TUNE_L", "XFMR_L", "PCB_MATCH_H", "L_TUNE_H", "XFMR_H"], reg: "PA-L04 … PA-L06 · PA-H04 … PA-H06" },
+  { mode: "cutaway", t: "Projectors and acoustic window",
+    s: "Both PZT projectors sit in a free-flooding pod over the belly window and radiate downwards. Both are PROPOSED / CANDIDATE parts and have not been acoustically tested yet.",
+    focus: ["PZT_L_120k", "PZT_H_500k", "FAIRING", "ACOUSTIC_WINDOW_FRAME"], reg: "AC-L01 · AC-H01" },
+  { mode: "power", t: "Power",
+    s: "AUV bus → fuse, TVS and TPS2663 eFuse → a 3.3 V buck for the logic and an LM5157 boost to the 30 V PA rail with a 1000 µF reservoir. The INA241A monitors the rail current." },
+  { mode: "sensing", t: "Sensing and adaptation",
+    s: "Depth, water temperature and leak sensors feed the STM32G474. Salinity, turbidity and range arrive from the AUV host over the data link - they are host parameters, not sensors." },
+  { mode: "arch", t: "Every connection",
+    s: `All ${REG.length} rows of the connectivity register drawn on the model and coloured by type. These are architectural links, not PCB routing. Presentation model - not fabricated.` }];
+const TR = { i: -1, timer: 0 };
+function tourRender() {
+  const st = TOUR[TR.i];
+  $("tourK").textContent = `Step ${TR.i + 1} of ${TOUR.length}`;
+  $("tourT").textContent = st.t; $("tourS").textContent = st.s;
+  $("tourBar").innerHTML = TOUR.map((s, i) => `<button type="button" data-i="${i}" class="${i < TR.i ? "done" : i === TR.i ? "cur" : ""}" aria-label="Step ${i + 1}: ${esc(s.t)}"></button>`).join("");
+  $("tourPrev").disabled = TR.i === 0;
+  $("tourNext").innerHTML = TR.i === TOUR.length - 1 ? "Finish" : 'Next<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+}
+function tourGo(i) {
+  TR.i = Math.max(0, Math.min(TOUR.length - 1, i));
+  const st = TOUR[TR.i];
+  isolate(false);
+  setMode(st.mode);
+  if (st.focus) focusStep([st.t, st.focus.filter(n => S.byName[n]), st.reg || ""]); else clearSel();
+  tourRender();
+}
+function tourStart() {
+  if (!S.root) return;
+  welcome(false);
+  if ($("app").classList.contains("focus") === false && stage.clientWidth < 520) window.scrollTo({ top: stage.getBoundingClientRect().top + scrollY - 8 });
+  stage.classList.add("touring"); $("tour").hidden = false;
+  tourGo(0);
+  $("tourNext").focus({ preventScroll: true });
+}
+function tourEnd() {
+  tourPlay(false);
+  TR.i = -1; stage.classList.remove("touring"); $("tour").hidden = true;
+}
+function tourNext() { if (TR.i >= TOUR.length - 1) { tourEnd(); toast("Tour finished - press Ctrl K to search any part"); } else tourGo(TR.i + 1); }
+function tourPlay(on) {
+  clearInterval(TR.timer); TR.timer = 0;
+  $("tourPlay").setAttribute("aria-pressed", String(!!on));
+  $("tour").classList.toggle("playing", !!on);
+  if (on) TR.timer = setInterval(() => { if (TR.i >= TOUR.length - 1) tourPlay(false); else tourGo(TR.i + 1); }, 9000);
+}
+$("tourNext").addEventListener("click", () => { tourPlay(false); tourNext(); });
+$("tourPrev").addEventListener("click", () => { tourPlay(false); tourGo(TR.i - 1); });
+$("tourPlay").addEventListener("click", () => tourPlay(!TR.timer));
+$("tourX").addEventListener("click", tourEnd);
+$("tourBar").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { tourPlay(false); tourGo(+b.dataset.i); } });
+document.querySelectorAll("[data-tour]").forEach(b => b.addEventListener("click", tourStart));
+
+// first visit: offer the tour once
+function welcome(show) {
+  $("welcome").hidden = !show;
+  stage.classList.toggle("offering", show);
+  if (show) hideHint();
+  else try { localStorage.setItem("sih26058-tour-offered", "1"); } catch (e) { /* storage blocked: offered again next visit */ }
+}
+$("welcomeGo").addEventListener("click", tourStart);
+$("welcomeX").addEventListener("click", () => welcome(false));
+function offerTour() {
+  let seen = false;
+  try { seen = !!localStorage.getItem("sih26058-tour-offered"); } catch (e) { seen = false; }
+  if (!seen && !location.hash) setTimeout(() => { if (TR.i < 0) welcome(true); }, 1200);
+}
+
+// ---------- keyboard
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+  if ((e.ctrlKey || e.metaKey) && k === "k") { e.preventDefault(); PAL.open ? palClose() : palOpen(); return; }
+  if (PAL.open) return;                                   // the palette handles its own keys
+  if (e.ctrlKey || e.metaKey || e.altKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
+  const onButton = !!e.target.closest("button, [role=button]");
+  if (TR.i >= 0 && (k === "arrowright" || (k === " " && !onButton))) { tourPlay(false); tourNext(); }
+  else if (TR.i >= 0 && k === "arrowleft") { tourPlay(false); tourGo(TR.i - 1); }
+  else if (TR.i >= 0 && k === "escape") tourEnd();
+  else if (k === "/") palOpen();
+  else if (/^[1-9]$/.test(k) && S.root) { clearSel(); setMode(KEY_MODES[+k - 1]); }
+  else if (k === "f" && S.root) fitView();
+  else if (k === "r" && S.root) resetView();
+  else if (k === "p") togglePanels();
+  else if (k === "t" && S.root) tourStart();
+  else if (k === "?" || (k === "/" && e.shiftKey)) { if ($("app").classList.contains("focus")) togglePanels(); showTab("display"); $("keysCard").scrollIntoView({ block: "nearest" }); }
+  else if (k === "escape") { if (S.isolate) isolate(false); else clearSel(); }
+  else return;
+  e.preventDefault();
+});
+window.SIH = { S, setMode, goToMesh, palOpen, tourStart, isolate, snapshot, showTab, camera, controls, selectSub, selectMesh, REG, pathState, rowMeshes, MODE, CHAIN, focusObject, fitView, resetView, gizmo, solveView, boxOf, padBox, pick, labelAt };   // exposed for inspection only
+</script>
