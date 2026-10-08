@@ -41,11 +41,11 @@ PA-H01,THS3491_H1,J_ANALOG_OUT_H,HIGH-POWER ANALOG (PA),H,BTL output +,ARCHITECT
 PA-H02,THS3491_H2,J_ANALOG_OUT_H,HIGH-POWER ANALOG (PA),H,BTL output -,ARCHITECTURAL,PROPOSED
 PA-H03,J_ANALOG_OUT_H,J_MATCH_H_PA,HIGH-POWER ANALOG (PA),H,"PA -> 500 kHz matching network (RG174 class, dry)","PHYSICAL ROUTE (placeholder cable ROUTE_PA_MATCH_H, TBD - not fabricated)",PROPOSED
 PA-H04,J_MATCH_H_PA,XFMR_H,HIGH-POWER ANALOG (PA),H,Impedance transform (TBD),ARCHITECTURAL,PROPOSED
-PA-H05,XFMR_H,L_TUNE_H,HIGH-POWER ANALOG (PA),H,Shunt tuning inductor: initial calculated target ~27 uH - TO BE TUNED FROM IMPEDANCE MEASUREMENT,ARCHITECTURAL,PROPOSED
+PA-H05,XFMR_H,L_TUNE_H,HIGH-POWER ANALOG (PA),H,Shunt tuning inductor: initial calculated target ~27 uH (cancels C0 ~3.75 nF at 500 kHz; L = 1 / (w0^2 C0)) - TO BE TUNED FROM IMPEDANCE MEASUREMENT,ARCHITECTURAL,PROPOSED
 PA-H06,L_TUNE_H,J_MATCH_H_PZT,HIGH-POWER ANALOG (PA),H,Matched drive to PZT connector,ARCHITECTURAL,PROPOSED
 PA-H07,J_MATCH_H_PZT,CONN_PEN_AC_H,HIGH-POWER ANALOG (PA),H,Dry acoustic cable (RG174 class),"PHYSICAL ROUTE (placeholder cable ROUTE_DRY_H_PZT, TBD - not fabricated)",PROPOSED
 PA-H08,PEN_AC_H,PZT_H_500k,HIGH-POWER ANALOG (PA),H,"Wetted acoustic cable (TBD, WetLink seal 4.5-8.5)","PHYSICAL ROUTE (placeholder cable ROUTE_WET_H, TBD - not fabricated)",PROPOSED
-PWR-01,PEN_PWR_DATA,J_INPUT_BUS,POWER,,AUV power input (bus TBD),"PHYSICAL ROUTE (placeholder cable ROUTE_AUV_PWR, TBD - not fabricated)",PROPOSED
+PWR-01,PEN_PWR_DATA,J_INPUT_BUS,POWER,,"AUV power input (bus voltage TBD; this power tree needs a bus below ~28 V, e.g. 12 V or a 6S ~24 V battery: TPS62933 input max 30 V, and the LM5157 boost input must stay below its 30 V output)","PHYSICAL ROUTE (placeholder cable ROUTE_AUV_PWR, TBD - not fabricated)",PROPOSED
 PWR-02,J_INPUT_BUS,FUSE,POWER,,Series fuse (TBD),ARCHITECTURAL,PROPOSED
 PWR-03,FUSE,TVS,POWER,,Transient clamp (TBD),ARCHITECTURAL,PROPOSED
 PWR-04,TVS,TPS2663,POWER,,eFuse / reverse polarity / inrush,ARCHITECTURAL,PROPOSED
@@ -65,5 +65,5 @@ PWR-17,SHUNT,THS3491_L1,POWER,L,30 V PA RAIL -> THS3491 L1,ARCHITECTURAL,PROPOSE
 PWR-18,SHUNT,THS3491_L2,POWER,L,30 V PA RAIL -> THS3491 L2,ARCHITECTURAL,PROPOSED
 PWR-19,SHUNT,THS3491_H1,POWER,H,30 V PA RAIL -> THS3491 H1,ARCHITECTURAL,PROPOSED
 PWR-20,SHUNT,THS3491_H2,POWER,H,30 V PA RAIL -> THS3491 H2,ARCHITECTURAL,PROPOSED
-AC-L01,PZT_L_120k,WATER,ACOUSTIC,L,"Band L acoustic output (-Z), ~120 kHz class - not acoustically characterised",ARCHITECTURAL (acoustic output to water),PROPOSED
-AC-H01,PZT_H_500k,WATER,ACOUSTIC,H,"Band H acoustic output (-Z), 500 kHz class - not acoustically characterised",ARCHITECTURAL (acoustic output to water),PROPOSED
+AC-L01,PZT_L_120k,WATER,ACOUSTIC,L,"Band L acoustic output (downward, through the belly window), ~120 kHz class - not acoustically characterised",ARCHITECTURAL (acoustic output to water),PROPOSED
+AC-H01,PZT_H_500k,WATER,ACOUSTIC,H,"Band H acoustic output (downward, through the belly window), 500 kHz class - not acoustically characterised",ARCHITECTURAL (acoustic output to water),PROPOSED
