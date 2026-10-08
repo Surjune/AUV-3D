@@ -296,3 +296,23 @@ Design-review fixes; the GLB is unchanged.
 | CTRL-05 / CTRL-06 | drawn from the STM32 to THS3491 L2 / H2 in the Band L / Band H colour; listed in the path steps |
 | Frequency plan | no overlapping labels; the band shapes open the Band L / Band H paths by click and Enter |
 | 375 px | no horizontal page scroll |
+
+## Viewer v8.1: review follow-ups (2026-10-08)
+
+- Frequency plan: the mid-band box reads "Signal OK, little sound here / between the two projectors".
+- Narrow stages: the tour offer sits above the 128 px axis gizmo; the evidence tags move up with it.
+- Light theme: the Band L / Band H chart labels use darker colours (contrast 5.6:1 and 7.5:1 on white).
+- Projectors: the acoustic-output rows AC-L01 / AC-H01 say "downward, through the belly window" (the old "(-Z)" was the
+  CAD-frame axis); the tour and the project note add that a side-scan installation would face them port and starboard.
+- Power: PWR-01, the Power caption and the tour state that the bus voltage is TBD and that this power tree needs a bus
+  below ~28 V (TPS62933 30 V maximum input; the LM5157 boost input must stay below its 30 V output).
+- 500 kHz matching: the tuning inductor shows its basis, L = 1 / (w0^2 C0): ~27 uH cancels C0 ~3.75 nF at 500 kHz; the
+  selected PZT's C0 sets the final value. No new component values are claimed.
+
+| Check | Result |
+|---|---|
+| 375 px, tour offer shown | no overlap between the offer, the axis gizmo, the camera tools, the caption and the tags (Complete AUV and Transmitter payload) |
+| 375 px, tour steps 1-10 | every tour card stays inside the stage and clear of the tags |
+| Light theme, new cards | all text at 4.5:1 or better on white |
+| Selection and hover text | L_TUNE_H role, PWR-01, AC-L01 / AC-H01 (including the P3B_AC_L / P3B_AC_H meshes) show the new wording; no "(-Z)" left |
+| Live site (2026-10-08) | model loads, all 9 views, tour 1-10, search "THS3491 H2" lists CTRL-06, chart links open the band paths; no console errors |
