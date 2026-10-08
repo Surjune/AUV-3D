@@ -458,8 +458,8 @@ details.cad .objs button:hover { border-color: var(--accent); color: var(--accen
 .welcome .w-x:hover { color: var(--fg); background: var(--raise-2); }
 @container (max-width: 960px) { .welcome { max-width: calc(100% - 330px); } .welcome small { display: none; } }
 @container (max-width: 700px) {                      /* narrow stage: the offer sits above the camera tools, the tags above the offer */
-  .welcome { max-width: none; left: 10px; right: 10px; bottom: 60px; }
-  .stage.offering .tags { bottom: 124px; }
+  .welcome { max-width: none; left: 10px; right: 10px; bottom: 136px; }   /* clear of the 128 px axis gizmo */
+  .stage.offering .tags { bottom: 200px; }
 }
 
 .tour { position: absolute; left: 14px; bottom: 14px; z-index: 5; width: min(540px, calc(100% - 330px)); display: grid; gap: 6px;
@@ -537,11 +537,14 @@ details.cad .objs button:hover { border-color: var(--accent); color: var(--accen
 #freq .row { font: 500 8.5px var(--font-mono); fill: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
 #freq .tp { fill: #ffe066; fill-opacity: .2; stroke: #ffe066; stroke-opacity: .8; }
 :root[data-theme="light"] #freq .tp { fill: #e0b400; stroke: #b08a00; }
+:root[data-theme="light"] #freq .hump[data-go="pathL"] text { fill: #a84f00; }   /* band colours darkened for text on white */
+:root[data-theme="light"] #freq .hump[data-go="pathH"] text { fill: #7a2bb0; }
 #freq .in { font: 600 9px var(--font-body); fill: var(--fg); text-anchor: middle; }
 #freq .lpf { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
 #freq .lpfT { font: 500 8.5px var(--font-mono); fill: var(--muted); text-anchor: end; }
 #freq .gap { fill: var(--raise-2); stroke: var(--line-2); stroke-dasharray: 3 3; }
 #freq .gapT { font: 500 8.5px var(--font-body); fill: var(--muted); text-anchor: middle; }
+#freq .gapT.b { font-weight: 700; fill: var(--fg-2); }
 #freq .hump { cursor: pointer; outline: none; }
 #freq .hump path { fill: var(--bc); fill-opacity: .28; stroke: var(--bc); stroke-width: 1.4; transition: fill-opacity .2s; }
 #freq .hump text { font: 600 9.5px var(--font-display); fill: var(--bc); text-anchor: middle; }
@@ -758,8 +761,8 @@ details.cad .objs button:hover { border-color: var(--accent); color: var(--accen
             <text class="lpfT" x="303" y="40">LPF ~600</text>
             <text class="row" x="14" y="45">In water · acoustic</text>
             <rect class="gap" x="80" y="71" width="146" height="27" rx="4"/>
-            <text class="gapT" x="153" y="82">off-resonance: valid at TP1,</text>
-            <text class="gapT" x="153" y="93">weak output in water</text>
+            <text class="gapT b" x="153" y="82">Signal OK, little sound here</text>
+            <text class="gapT" x="153" y="93">between the two projectors</text>
             <g class="hump" data-go="pathL" role="button" tabindex="0" aria-label="Band L path"><path d="M28,96 C42,96 43,64 51.2,64 C59.4,64 62,96 76,96 z" style="--bc:#ff8a1f"/><text x="51.2" y="60" style="--bc:#ff8a1f">Band L ~120</text></g>
             <g class="hump" data-go="pathH" role="button" tabindex="0" aria-label="Band H path"><path d="M229,96 C243,96 244.7,64 252.9,64 C261.1,64 263,96 277,96 z" style="--bc:#b25be8"/><text x="252.9" y="60" style="--bc:#b25be8">Band H 500</text></g>
             <path class="ax" d="M14,102 H306"/>
